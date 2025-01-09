@@ -1,3 +1,5 @@
+"use client"
+
 
 import { SignedOut } from '@clerk/nextjs'
 

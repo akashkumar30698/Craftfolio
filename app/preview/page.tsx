@@ -1,3 +1,6 @@
+"use client"
+
+
 import { Suspense } from "react"
 import DashboardPage from "./dashPage"
 import Loading from "../(main)/loading";

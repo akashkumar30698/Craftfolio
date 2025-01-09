@@ -1,3 +1,6 @@
+"use client"
+
+
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet"
 import { DashboardSidebar } from "./accordion"

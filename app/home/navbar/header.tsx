@@ -1,3 +1,6 @@
+"use client"
+
+
 import React, { useState } from "react";
 import { BackgroundLines } from "@/components/ui/background-lines";
 import { RainbowButton } from "@/components/ui/rainbow-button";
