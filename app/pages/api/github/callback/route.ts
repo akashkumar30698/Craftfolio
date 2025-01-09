@@ -1,10 +1,9 @@
 // /pages/api/github/callback.ts (Server-side API route)
-import { NextApiRequest, NextApiResponse } from 'next';
 import axios from 'axios';
-import { NextResponse } from 'next/server';
+import { NextResponse,NextRequest } from 'next/server';
 
 
-export async function GET(req: NextApiRequest, res: NextApiResponse) {
+export async function GET(req: NextRequest, res: NextResponse) {
     const url = req.url || "";
     // Create a URL object
     const urlObj = new URL(url);

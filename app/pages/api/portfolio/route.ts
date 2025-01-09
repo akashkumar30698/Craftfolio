@@ -1,8 +1,7 @@
 
-import { NextApiRequest, NextApiResponse } from 'next';
-import { NextResponse } from 'next/server';
+import { NextResponse,NextRequest } from 'next/server';
 
-export async function POST(req: NextApiRequest, res: NextApiResponse) {
+export async function POST(req: NextRequest, res: NextResponse) {
     try {
         console.log(req,res)
             return NextResponse.json({ success: 'Successfully Submitted' });
