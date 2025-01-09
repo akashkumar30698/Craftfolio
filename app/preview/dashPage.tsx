@@ -134,10 +134,10 @@ export default function DashboardPage() {
                 </div>
 
                  <TabsContent value="mobile" className="flex-1 overflow-auto">
-                  <RealTimeHtml device="mobile" />
+                { /* <RealTimeHtml device="mobile" /> */ }
                  </TabsContent>
                  <TabsContent value="laptop" className="flex-1 overflow-auto">
-                  <RealTimeHtml device="laptop" />
+                 { /* <RealTimeHtml device="laptop" /> */ }
                  </TabsContent>
 
               </Tabs>

@@ -226,23 +226,6 @@ export function RealTimeHtml({ device }: RealTimeHtmlProps) {
         }
 
 
-
-
-
-
-        /* 
-
-
-        
-
-      
-        
-        
-        */
-
-
-
-
         if (formData.photo) {
           const imageElement = iframeDocument.getElementById("about-me-image") as HTMLImageElement;
           if (imageElement) {
