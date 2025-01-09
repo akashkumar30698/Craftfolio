@@ -17,7 +17,7 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
     if (!extractCoded) {
         return NextResponse.json({ error: 'Code is required' });
     }
-
+    console.log(res)
     try {
         const response = await axios.post('https://github.com/login/oauth/access_token', null, {
             params: {
@@ -50,7 +50,7 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
 
         return NextResponse.redirect(loginUrl.toString());
     } catch (error) {
-        return NextResponse.json({ error: 'Error exchanging code for access token' });
+        return NextResponse.json({ error: 'Error exchanging code for access token', err: error });
     }
 }
 

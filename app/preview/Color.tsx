@@ -12,7 +12,7 @@ interface ColorPickerProps {
 export default function ColorPickerComp({ elementId }: ColorPickerProps) {
     const [color, setColor] = useState({ h: 0, s: 100, v: 100 })
     const iframeRef = useIframeRef()
-    const { formData, updateFormData } = useFormContext()
+    const {  updateFormData } = useFormContext()
 
     const handleColorChange = (newColor: { h: number; s: number; v: number }) => {
         setColor(newColor)
@@ -53,7 +53,7 @@ export default function ColorPickerComp({ elementId }: ColorPickerProps) {
           element.style.backgroundColor = hexColor;
           updateFormData(`${elementId}`,hexColor)
       }
-  }, [hexColor, iframeRef, elementId])
+  }, [hexColor, iframeRef, elementId,updateFormData])
 
  
 

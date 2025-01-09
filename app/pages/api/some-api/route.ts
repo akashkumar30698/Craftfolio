@@ -13,6 +13,8 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
   const { repoName, description } = req.body;
   const { token } = req.headers;
 
+  console.log(res)
+
   if (!repoName || !description || !token) {
     return NextResponse.json({ message: 'Missing required fields' });
   }

@@ -90,7 +90,7 @@ const CallbackPage: React.FC = () => {
     };
 
     handleCallback();
-  }, []);
+  }, [router,setIsLoading,setStepStatus,setVercelAccessToken]);
 
   return (
     <>

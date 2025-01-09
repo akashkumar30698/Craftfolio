@@ -46,7 +46,7 @@ export default function App() {
       setIsLoggedIn(true)
       router.push(`/preview`);
     }
-  }, [isSignedIn, user, isLoaded, router]); // Ensure useEffect runs when the user or isLoaded changes
+  }, [isSignedIn, user, isLoaded, router,setIsLoggedIn]); // Ensure useEffect runs when the user or isLoaded changes
 
   // Show loading state while Clerk is loading
   if (!isLoaded) {

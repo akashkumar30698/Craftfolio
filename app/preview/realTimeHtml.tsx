@@ -446,7 +446,7 @@ export function RealTimeHtml({ device }: RealTimeHtmlProps) {
     return () => {
       window.removeEventListener("message", handleMessage);
     };
-  }, [formData]);
+  }, [formData,iframeRef,selectedSkills]);
 
   return (
 

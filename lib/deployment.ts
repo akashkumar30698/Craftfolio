@@ -65,6 +65,7 @@ export async function uploadFiles(repoFullName: string, setIsLoading: React.Disp
 
     // Extract the GitHub token from the URL query string
     const urlParams = new URLSearchParams(window.location.search);
+    console.log(randomId,setRandomId)
 
     // Get the 'github_access_token' parameter
     const githubTokenSecond = urlParams.get('github_access_token');
@@ -205,6 +206,8 @@ export const deployProject = async (setIsLoading: React.Dispatch<React.SetStateA
             }
         );
 
+        console.log(response,owner)
+
 
         return true; // Return true if the deployment is successful
     } catch (error) {
@@ -273,6 +276,7 @@ export async function deployToVercel(setIsLoading: React.Dispatch<React.SetState
         )
 
         const { url } = response.data
+        console.log(owner)
 
         storeUrl = `${url}`
         setUrl(`${url}`)

@@ -44,13 +44,13 @@ const steps = [
   },
 ]
 
-function isEmpty(obj: object): boolean {
+function isEmpty(obj: object | string): boolean {
   return Object.keys(obj).length === 0;
 }
 
 
 
-async function storeFilesInCache(formData: Record<string,any>) {
+async function storeFilesInCache(formData) {
   if ('caches' in window) {
     const cache = await caches.open('file-cache');
     
@@ -79,6 +79,8 @@ async function storeFilesInCache(formData: Record<string,any>) {
 }
 
 
+
+
 export function EnhancedDeploymentStepsCard() {
   const {formData, currentStep, setCurrentStep,setRandomId,randomId, repoInfo, setRepoInfo, isLoading, setIsLoading, stepStatus, setStepStatus, setUrl, url } = useFormContext()
   const [githubAccessToken, setGithubAccessToken] = useState<string | null>(null)
@@ -90,7 +92,7 @@ export function EnhancedDeploymentStepsCard() {
 
   useEffect(() =>{
     if (!isEmpty(formData)) {
-      const formDataWithoutFiles: Record<string, any> = {};
+      const formDataWithoutFiles = {};
       
       for (const [key, value] of Object.entries(formData)) {
         if (!(value instanceof File)) {
@@ -152,7 +154,7 @@ export function EnhancedDeploymentStepsCard() {
 
     fetchToken()
  
-  }, [searchParams, currentStep, setCurrentStep])
+  }, [searchParams, currentStep, setCurrentStep,disableButton,setStepStatus])
 
 
   useEffect(()=>{
@@ -162,7 +164,7 @@ export function EnhancedDeploymentStepsCard() {
         setCurrentStep(currentStep + 1)
         setDisableButton(true) 
     }
-  },[searchParams])
+  },[searchParams,currentStep,setCurrentStep])
 
  
 
@@ -179,7 +181,7 @@ export function EnhancedDeploymentStepsCard() {
       localStorage.removeItem("github_access_token")
       setDisableButton(false)
     }
-  }, [currentStep])
+  }, [currentStep,setUrl])
 
   const handleNextStep = async (e:React.FormEvent ) => {
     setIsLoading(true)
@@ -190,7 +192,7 @@ export function EnhancedDeploymentStepsCard() {
       setIsLoading(false)
       return
      }
-     const localStorageFormData: any = localStorage.getItem("formData")
+     const localStorageFormData: object | string = localStorage.getItem("formData")
 
      if(localStorageFormData && isEmpty(localStorageFormData)){
       setError("No formData found or formData expired")
@@ -270,6 +272,7 @@ export function EnhancedDeploymentStepsCard() {
               Cookies.remove("latestCSRFToken")
               Cookies.remove("github_access_token")
               Cookies.remove("vercel_access_token")
+              console.log(githubAccessToken)
 
               await removeCacheStorage()
 

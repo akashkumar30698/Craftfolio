@@ -32,10 +32,11 @@ export default function FontStylerAccordion() {
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
     const iframeRef = useIframeRef()
-    const { formData, updateFormData } = useFormContext()
+    const { updateFormData } = useFormContext()
 
     const changeFont = (value: string) => {
         setCurrentFont(value);
+        console.log(isLoading,error)
     };
 
     useEffect(() => {
@@ -70,7 +71,7 @@ export default function FontStylerAccordion() {
         }, 500);
 
         return () => clearTimeout(timer);
-    }, [currentFont, iframeRef]);
+    }, [currentFont, iframeRef,updateFormData]);
 
     return (
         <div className="relative">

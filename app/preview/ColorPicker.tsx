@@ -40,12 +40,7 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({ onChange }) => {
     [hsv, onChange]
   )
 
-  const handleMouseDown = useCallback((event: React.MouseEvent<HTMLDivElement>) => {
-    isDragging.current = true
-    handleChange(event.nativeEvent)
-    window.addEventListener('mousemove', handleChange)
-    window.addEventListener('mouseup', handleMouseUp)
-  }, [handleChange])
+
 
   const handleMouseUp = useCallback(() => {
     isDragging.current = false
@@ -53,18 +48,30 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({ onChange }) => {
     window.removeEventListener('mouseup', handleMouseUp)
   }, [handleChange])
 
-  const handleTouchStart = useCallback((event: React.TouchEvent<HTMLDivElement>) => {
+  const handleMouseDown = useCallback((event: React.MouseEvent<HTMLDivElement>) => {
     isDragging.current = true
     handleChange(event.nativeEvent)
-    window.addEventListener('touchmove', handleChange)
-    window.addEventListener('touchend', handleTouchEnd)
-  }, [handleChange])
+    window.addEventListener('mousemove', handleChange)
+    window.addEventListener('mouseup', handleMouseUp)
+  }, [handleChange, handleMouseUp])
+
+
+
 
   const handleTouchEnd = useCallback(() => {
     isDragging.current = false
     window.removeEventListener('touchmove', handleChange)
     window.removeEventListener('touchend', handleTouchEnd)
   }, [handleChange])
+
+  const handleTouchStart = useCallback((event: React.TouchEvent<HTMLDivElement>) => {
+    isDragging.current = true
+    handleChange(event.nativeEvent)
+    window.addEventListener('touchmove', handleChange)
+    window.addEventListener('touchend', handleTouchEnd)
+  }, [handleChange, handleTouchEnd])
+
+
 
   useEffect(() => {
     return () => {
@@ -95,16 +102,18 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({ onChange }) => {
         role="slider"
         aria-label="Color"
         aria-valuetext={`Saturation ${hsv.s}%, Brightness ${hsv.v}%`}
+        aria-valuenow={hsv.s} // Assuming 'hsv.s' is the current value of the slider (you can use any value here)
         tabIndex={0}
       >
-        <div className={styles.pointer} style={pointerStyle}>
-          <div
-            className={styles.pointerFill}
-            style={{ backgroundColor: `hsl(${hsv.h}, ${hsv.s}%, ${hsv.v}%)` }}
-          />
-        </div>
+
+      <div className={styles.pointer} style={pointerStyle}>
+        <div
+          className={styles.pointerFill}
+          style={{ backgroundColor: `hsl(${hsv.h}, ${hsv.s}%, ${hsv.v}%)` }}
+        />
       </div>
     </div>
+    </div >
   )
 }
 

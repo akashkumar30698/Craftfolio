@@ -63,18 +63,6 @@ function convertToFile(photoName: string): File {
 }
 
 
-// Function to convert the photos in an array to File objects
-async function convertPhotosToFiles(data: { id: string; title: string; description: string; photo: string }[]): Promise<{ id: string; title: string; description: string; photo: File }[]> {
-  const convertedData = await Promise.all(data.map(async (item) => {
-    const file = await convertToFile(item.photo);
-    return {
-      ...item,
-      photo: file,
-    };
-  }));
-
-  return convertedData;
-}
 
 
 

@@ -14,10 +14,7 @@ async function connectToDatabase() {
   return client.db(dbName);
 }
 
-// Helper function to generate a unique ID (if needed, but MongoDB uses ObjectId by default)
-function generateId() {
-  return Math.random().toString(36).substr(2, 9);
-}
+
 
 
 // CORS headers

@@ -3,7 +3,6 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { DashboardSidebar } from "./accordion"
 import { PortfolioBuilderLogo } from "../home/navbar/logo"
-import { useContextApi } from "../context/getContext"
 import { useAuth } from "@clerk/nextjs";
 import { useUser } from "@clerk/nextjs";
 
