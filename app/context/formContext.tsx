@@ -9,6 +9,14 @@ interface RepoInfo {
 }
 
 
+interface FormData {
+  field1: string;
+  field2: number;
+  // Add more fields as needed
+}
+
+
+
 type FormContextType = {
   formData: Record<string, any>
   updateFormData: (field: string, value: any) => void

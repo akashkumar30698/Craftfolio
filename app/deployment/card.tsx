@@ -50,7 +50,7 @@ function isEmpty(obj: object): boolean {
 
 
 
-async function storeFilesInCache(formData: Record<string, any>) {
+async function storeFilesInCache(formData: Record<string,any>) {
   if ('caches' in window) {
     const cache = await caches.open('file-cache');
     

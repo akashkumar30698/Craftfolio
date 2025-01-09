@@ -1,7 +1,6 @@
 'use client'
 
 import { SidebarProvider } from "@/components/ui/sidebar"
-import { DashboardSidebar } from "./accordion"
 import { SidebarInset } from "@/components/ui/sidebar"
 import { RealTimeHtml } from "./realTimeHtml"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
