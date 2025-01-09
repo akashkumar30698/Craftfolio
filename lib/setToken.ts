@@ -1,7 +1,7 @@
 
 
 
-export async function setTokenOnServer(token: any, type: any) {
+export async function setTokenOnServer(token, type) {
     try {
 
         if(!token || !type){

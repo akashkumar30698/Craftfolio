@@ -110,24 +110,31 @@ export async function POST(request: NextRequest) {
     let index = 0;
 
     while (data.has(`project_${index}`)) {
-      const rawProjectFile: any = data.get(`project_${index}`) 
-      const parsedProjectFile = JSON.parse(rawProjectFile);
-      const projectFile = convertToFile(parsedProjectFile.photo)
+      const rawProjectFile = data.get(`project_${index}`) 
 
-      if (projectFile) {
-        const uploadedProjectPhoto = await uploadToCloudinary(projectFile);
-        projects.push({
-          photo: uploadedProjectPhoto.secure_url,
-          public_id: uploadedProjectPhoto.public_id,
-          metadata: JSON.parse(data.get(`project_metadata_${index}`) as string || '{}')
-        });
+
+      if(typeof rawProjectFile == 'string'){
+        const parsedProjectFile  = JSON.parse(rawProjectFile) ;
+        const projectFile = convertToFile(parsedProjectFile.photo)
+
+        if (projectFile) {
+          const uploadedProjectPhoto = await uploadToCloudinary(projectFile);
+          projects.push({
+            photo: uploadedProjectPhoto.secure_url,
+            public_id: uploadedProjectPhoto.public_id,
+            metadata: JSON.parse(data.get(`project_metadata_${index}`) as string || '{}')
+          });
+        }
       }
+
+
+     
 
       index++;
     }
 
     // Process other non-file form data
-    const processedData: Record<string, any> = {};
+    const processedData = {};
     for (const [key, value] of data.entries()) {
       if (!['photo', 'resume'].includes(key) && !key.startsWith('project_')) {
         try {

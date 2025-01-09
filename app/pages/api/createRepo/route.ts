@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
     );
 
     return NextResponse.json({ repoData: response.data });
-  } catch (error: any) {
+  } catch (error) {
     // Handle Axios error object
     const status = error.response?.status || 500;
     const errorMessage = error.response?.data || "Failed to create repository";

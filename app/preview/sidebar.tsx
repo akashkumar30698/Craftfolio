@@ -77,7 +77,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
 
 
 
-function GlobeIcon(props: any) {
+function GlobeIcon(props) {
   return (
     <svg
       {...props}

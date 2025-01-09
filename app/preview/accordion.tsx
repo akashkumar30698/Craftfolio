@@ -124,7 +124,7 @@ export function DashboardSidebar() {
 
     }, [socialLinks])
 
-    const handleLinkChange = (id: string, e: any) => {
+    const handleLinkChange = (id: string, e) => {
         const { name, value } = e.target
 
         setSocialLinks(links =>
@@ -132,14 +132,14 @@ export function DashboardSidebar() {
         )
     }
 
-    const handleInputChange = (id: string, e: any) => {
+    const handleInputChange = (id: string, e) => {
         const { name, value } = e.target
         setProjects(projects.map(project =>
             project.id === id ? { ...project, [name]: value } : project
         ))
     }
 
-    const handlePhotoChange = (id: string, e: any) => {
+    const handlePhotoChange = (id: string, e) => {
         if (e.target.files && e.target.files[0]) {
             const file = e.target.files[0]
             setProjects(projects.map(project =>

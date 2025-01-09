@@ -159,7 +159,6 @@ async function fetchFileContent(filePath: string): Promise<string> {
     }
 }
 
-let projectId: any
 
 
 export const deployProject = async (setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
@@ -205,10 +204,8 @@ export const deployProject = async (setIsLoading: React.Dispatch<React.SetStateA
                 },
             }
         );
-        projectId = null
 
 
-        projectId = response.data.id
         return true; // Return true if the deployment is successful
     } catch (error) {
         console.error("Error deploying project to Vercel:", error);
@@ -280,7 +277,6 @@ export async function deployToVercel(setIsLoading: React.Dispatch<React.SetState
         storeUrl = `${url}`
         setUrl(`${url}`)
 
-        projectId = null
         return url
 
     } catch (error) {

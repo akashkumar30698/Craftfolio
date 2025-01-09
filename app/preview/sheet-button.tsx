@@ -34,7 +34,7 @@ export function SheetButton() {
   )
 }
 
-function MenuIcon(props: any) {
+function MenuIcon(props) {
     return (
       <svg
         {...props}
@@ -57,7 +57,7 @@ function MenuIcon(props: any) {
 
 
   
-function GlobeIcon(props: any) {
+function GlobeIcon(props) {
     return (
       <svg
         {...props}

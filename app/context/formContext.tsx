@@ -13,29 +13,11 @@ interface RepoInfo {
 
 
 
-type FormContextType = {
-  formData: Record<string, any>
-  updateFormData: (field: string, value: any) => void
-  selectedSkills: string[]
-  setSelectedSkills: React.Dispatch<React.SetStateAction<string[]>>
-  currentStep: number;
-  setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
-  repoInfo: RepoInfo | null | undefined
-  setRepoInfo: React.Dispatch<React.SetStateAction<RepoInfo | null>>
-  isLoading: boolean
-  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>
-  stepStatus: string | null
-  setStepStatus: React.Dispatch<React.SetStateAction<string | null>>
-  url: string | null
-  setUrl: React.Dispatch<React.SetStateAction<string | null>>
-  randomId: string | null
-  setRandomId: React.Dispatch<React.SetStateAction<string | null>>
-}
 
-const FormContext = createContext<FormContextType | undefined>(undefined)
+const FormContext = createContext(undefined)
 
 export const FormProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [formData, setFormData] = useState<Record<string, any>>({})
+  const [formData, setFormData] = useState({})
   const [selectedSkills, setSelectedSkills] = useState<string[]>([])
   const [currentStep, setCurrentStep] = useState(0)
   const [repoInfo, setRepoInfo] = useState<RepoInfo | null>(null)
@@ -46,7 +28,7 @@ export const FormProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
 
 
-  const updateFormData = (field: string, value: any) => {
+  const updateFormData = (field: string, value) => {
     setFormData(prev => ({ ...prev, [field]: value }))
   }
 

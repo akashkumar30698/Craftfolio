@@ -2,9 +2,9 @@ import { NextResponse } from 'next/server';
 import { MongoClient, ObjectId } from 'mongodb';
 
 // MongoDB connection URI and database name
-const uri: any = process.env.MONGODB_URI;
+const uri = process.env.MONGODB_URI;
 const dbName = process.env.MONGODB_DB;
-let client: any;
+let client;
 
 async function connectToDatabase() {
   if (!client) {
@@ -27,7 +27,7 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'Content-Type, Authorization', // Allowed headers
 };
 
-export async function GET(request: any) {
+export async function GET(request) {
   try {
     // Get the randomId from the query parameters
     const searchParams = request.nextUrl.searchParams;
@@ -62,7 +62,7 @@ export async function GET(request: any) {
 
 
 // POST a new user
-export async function POST(request: any) {
+export async function POST(request) {
   try {
     const userData = await request.json();
 
@@ -96,7 +96,7 @@ export async function POST(request: any) {
 }
 
 // PUT (update) a user
-export async function PUT(request: any) {
+export async function PUT(request) {
   try {
     const userData = await request.json();
 
@@ -139,7 +139,7 @@ export async function PUT(request: any) {
 }
 
 // DELETE a user
-export async function DELETE(request: any) {
+export async function DELETE(request) {
   try {
     const { id } = await request.json();
 

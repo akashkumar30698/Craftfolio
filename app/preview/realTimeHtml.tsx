@@ -10,7 +10,7 @@ export function useSharedIframeRef(): MutableRefObject<HTMLIFrameElement | null>
   return ref;
 }
 
-let getIframeRef: any
+let getIframeRef
 
 export function useIframeRef() {
   return getIframeRef
@@ -412,7 +412,7 @@ export function RealTimeHtml({ device }: RealTimeHtmlProps) {
       //  updateImageSrc("about-me-image", formData.aboutMeImage);
 
       // Update projects
-      formData.projects?.forEach((project: any, index: any) => {
+      formData.projects?.forEach((project, index) => {
         const num = index + 1;
         //    updateTextContent(`project-${num}-title`, project.title);
         //    updateTextContent(`project-${num}-description`, project.description);
@@ -422,7 +422,7 @@ export function RealTimeHtml({ device }: RealTimeHtmlProps) {
       });
 
       // Update social links
-      formData.socialLinks?.forEach((link: any, index: any) => {
+      formData.socialLinks?.forEach((link, index) => {
         if (index === 0) updateAnchorHref("linkedin-url", link.url);
         if (index === 1) updateAnchorHref("github-url", link.url);
       });

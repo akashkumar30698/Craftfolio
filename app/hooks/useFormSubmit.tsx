@@ -62,7 +62,7 @@ export function useFormSubmit() {
 
 
 
-  const handleFilesToCloudinary = async (fileData: any): Promise<CloudinaryResponse | null> => {
+  const handleFilesToCloudinary = async (fileData): Promise<CloudinaryResponse | null> => {
     if (Object.keys(fileData).length === 0) {
       console.error("No file content found", fileData)
       return null
