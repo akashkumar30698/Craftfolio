@@ -15,7 +15,7 @@ const DashboardPage: React.FC = () => {
             router.push("/sign-in")
         }
 
-    },[isSignedIn])
+    },[isSignedIn,router])
 
 
     return (
