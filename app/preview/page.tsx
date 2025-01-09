@@ -14,6 +14,8 @@ import { useFormContext } from "../context/formContext"
 import { createRandomId } from "@/lib/utils"
 import { Loader2 } from 'lucide-react'
 import { RainbowButton } from "@/components/ui/rainbow-button"
+import { Suspense } from 'react';
+
 
 
 interface IUser {
@@ -95,6 +97,9 @@ export default function DashboardPage() {
   }
 
   return (
+
+    <>
+    <Suspense fallback={<div>Loading...</div>}>
     <SidebarProvider>
       <div className="flex h-screen w-full overflow-hidden">
         <Sidebar>
@@ -144,6 +149,10 @@ export default function DashboardPage() {
       </div>
 
     </SidebarProvider>
+    </Suspense>
+
+    </>
+    
 
   )
 }

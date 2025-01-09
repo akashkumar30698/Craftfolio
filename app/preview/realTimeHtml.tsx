@@ -3,6 +3,8 @@
 import React, { useEffect, useRef, MutableRefObject } from "react";
 import { useSearchParams } from "next/navigation";
 import { useFormContext } from "../context/formContext";
+import { Suspense } from 'react';
+
 
 // Create a custom hook to manage the shared ref
 export function useSharedIframeRef(): MutableRefObject<HTMLIFrameElement | null> {
@@ -61,10 +63,10 @@ const skillsData = [
   { id: "MY SQL", url: "https://res.cloudinary.com/djpbqetkj/image/upload/v1735027209/pngwing.com_22_oox22y.png" },
   { id: "POSTGRESQL", url: "https://res.cloudinary.com/djpbqetkj/image/upload/v1735027299/pngwing.com_23_clvtc7.png" },
   { id: "CASSANDRA DB", url: "https://res.cloudinary.com/djpbqetkj/image/upload/v1735027381/pngwing.com_24_botbgy.png" },
-  { id:"NEXT.JS" ,url: "https://res.cloudinary.com/djpbqetkj/image/upload/v1736413319/pngwing.com_34_bafoye.png" },
-  { id: "TYPESCRIPT", url: "https://res.cloudinary.com/djpbqetkj/image/upload/v1734948045/pnghut_angularjs-typescript-javascript-vue-js-library-brand_ifepkv.png"},
-  { id: "C", url: "https://res.cloudinary.com/djpbqetkj/image/upload/v1736413372/pngwing.com_35_hftpib.png"},
-  { id: "C++",url: "https://res.cloudinary.com/djpbqetkj/image/upload/v1736413420/pngwing.com_36_z4z6ur.png"}
+  { id: "NEXT.JS", url: "https://res.cloudinary.com/djpbqetkj/image/upload/v1736413319/pngwing.com_34_bafoye.png" },
+  { id: "TYPESCRIPT", url: "https://res.cloudinary.com/djpbqetkj/image/upload/v1734948045/pnghut_angularjs-typescript-javascript-vue-js-library-brand_ifepkv.png" },
+  { id: "C", url: "https://res.cloudinary.com/djpbqetkj/image/upload/v1736413372/pngwing.com_35_hftpib.png" },
+  { id: "C++", url: "https://res.cloudinary.com/djpbqetkj/image/upload/v1736413420/pngwing.com_36_z4z6ur.png" }
 ]
 
 interface RealTimeHtmlProps {
@@ -87,7 +89,7 @@ export function RealTimeHtml({ device }: RealTimeHtmlProps) {
     }
   }, [searchParams]);
 
-  
+
 
   useEffect(() => {
     const updateIframeContent = () => {
@@ -102,13 +104,13 @@ export function RealTimeHtml({ device }: RealTimeHtmlProps) {
       (iframeDocument.getElementById(
         "about-me-image"
       ) as HTMLImageElement)?.src;
-       (iframeDocument.getElementById(
+      (iframeDocument.getElementById(
         "project-one-image"
       ) as HTMLImageElement)?.src;
       (iframeDocument.getElementById(
         "project-two-image"
       ) as HTMLImageElement)?.src;
-       (iframeDocument.getElementById(
+      (iframeDocument.getElementById(
         "project-three-image"
       ) as HTMLImageElement)?.src;
 
@@ -132,23 +134,23 @@ export function RealTimeHtml({ device }: RealTimeHtmlProps) {
       (iframeDocument.getElementById(
         "project-two-githubRepo"
       ) as HTMLAnchorElement)?.href;
-       (iframeDocument.getElementById(
+      (iframeDocument.getElementById(
         "project-three-githubRepo"
       ) as HTMLAnchorElement)?.href;
 
-    (iframeDocument.getElementById(
+      (iframeDocument.getElementById(
         "project-one-liveLink"
       ) as HTMLAnchorElement)?.href;
-    (iframeDocument.getElementById(
+      (iframeDocument.getElementById(
         "project-two-liveLink"
       ) as HTMLAnchorElement)?.href;
-    (iframeDocument.getElementById(
+      (iframeDocument.getElementById(
         "project-three-liveLink"
       ) as HTMLAnchorElement)?.href;
 
-       (iframeDocument.getElementById("linkedin-url") as HTMLAnchorElement)
+      (iframeDocument.getElementById("linkedin-url") as HTMLAnchorElement)
         ?.href;
-       (iframeDocument.getElementById("github-url") as HTMLAnchorElement)?.href;
+      (iframeDocument.getElementById("github-url") as HTMLAnchorElement)?.href;
       const email = (iframeDocument.getElementById("user-email") as HTMLAnchorElement)?.href;
       let resume = (iframeDocument.getElementById("resume") as HTMLAnchorElement)
 
@@ -446,22 +448,30 @@ export function RealTimeHtml({ device }: RealTimeHtmlProps) {
     return () => {
       window.removeEventListener("message", handleMessage);
     };
-  }, [formData,iframeRef,selectedSkills]);
+  }, [formData, iframeRef, selectedSkills]);
 
   return (
 
-    <div className={`w-full h-full bg-gray-100 rounded-lg ${device === 'laptop' ? 'max-w-sm mx-auto' : ''}`}>
-    <iframe
-      ref={iframeRef}
-      id="template"
-      src={`/index.html?${searchParams.toString()}`}
-      className={`w-full border-none ${device === 'mobile' ? 'h-[800px]' : 'h-full'}`}
-      title={`${device} preview`}
-    />
-  </div>
+    <>
+      <Suspense fallback={<div>Loading...</div>}>
+        <div className={`w-full h-full bg-gray-100 rounded-lg ${device === 'laptop' ? 'max-w-sm mx-auto' : ''}`}>
+          <iframe
+            ref={iframeRef}
+            id="template"
+            src={`/index.html?${searchParams.toString()}`}
+            className={`w-full border-none ${device === 'mobile' ? 'h-[800px]' : 'h-full'}`}
+            title={`${device} preview`}
+          />
+        </div>
+      </Suspense>
+    </>
 
 
-   
+
+
+
+
+
   );
 }
 

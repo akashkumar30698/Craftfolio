@@ -16,6 +16,8 @@ import { useFormSubmit } from '../hooks/useFormSubmit'
 import { removeCacheStorage } from '@/lib/cacheStorageRemover'
 import { setTokenOnServer } from '@/lib/setToken'
 import Cookies from 'js-cookie'
+import { Suspense } from 'react';
+
 
 const steps = [
   {
@@ -303,6 +305,9 @@ export function EnhancedDeploymentStepsCard() {
   const CurrentIcon = steps[currentStep]?.icon || FaCheckCircle
 
   return (
+
+    <>
+    <Suspense fallback={<div>Loading...</div>}>
     <Card className="w-full max-w-md mx-auto overflow-hidden bg-gradient-to-br from-gray-900 to-gray-800 text-white">
       <CardHeader className="bg-gradient-to-r from-blue-500 to-purple-600 p-6">
         <CardTitle className="text-2xl font-bold">Deploy Your Website</CardTitle>
@@ -420,6 +425,10 @@ export function EnhancedDeploymentStepsCard() {
         </motion.div>
       </CardContent>
     </Card>
+    </Suspense>
+    </>
+  
+
   )
 
 }
