@@ -1,19 +1,17 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import { NextResponse } from "next/server";
+import { NextResponse ,NextRequest} from "next/server";
 import axios from "axios"
 
 
 
-export async function POST(req: NextApiRequest, res: NextApiResponse) {
+export async function POST(req: NextRequest) {
 
   if (req.method !== 'POST') {
     return NextResponse.json({ message: 'Method not allowed' });
   }
 
-  const { repoName, description } = req.body;
-  const { token } = req.headers;
+  const { repoName, description } = await req.json(); // Extract JSON body
+  const token = req.headers.get('token'); // Extract token from headers
 
-  console.log(res)
 
   if (!repoName || !description || !token) {
     return NextResponse.json({ message: 'Missing required fields' });
