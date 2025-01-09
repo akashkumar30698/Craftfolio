@@ -9,11 +9,7 @@ interface RepoInfo {
 }
 
 
-interface FormData {
-  field1: string;
-  field2: number;
-  // Add more fields as needed
-}
+
 
 
 
