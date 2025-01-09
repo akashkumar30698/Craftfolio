@@ -1,8 +1,7 @@
 // pages/api/getTemplateFiles.ts
 import fs from 'fs';
 import path from 'path';
-import { NextApiRequest } from 'next';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 // Helper function to get all files in a folder recursively
 const getFilesRecursively = (directory: string, relativePath = '') => {
@@ -26,7 +25,7 @@ const getFilesRecursively = (directory: string, relativePath = '') => {
   return fileList;
 };
 
-export async function GET(req: NextApiRequest) {
+export async function GET(req: NextRequest) {
   const url = req.url || '';
   const parsedUrl = new URL(url);
   const fileName = parsedUrl.searchParams.get('fileName');
