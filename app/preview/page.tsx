@@ -75,6 +75,12 @@ export default function DashboardPage() {
      //  description: 'The initiatingUser field must be a boolean',
      // })
 
+     /*
+     
+     
+     
+     */
+
     if (emptyFields.length > 0) {
       setLoading(false)
       toast({
@@ -85,7 +91,7 @@ export default function DashboardPage() {
     else {
       // All fields are filled and valid, proceed to deployment page
       router.push(`/deployment?deployId=${createRandomId(8)}`)
-      setLoading(false)
+     // setLoading(false)
     }
   }
 
