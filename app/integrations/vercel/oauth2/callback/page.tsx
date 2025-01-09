@@ -8,16 +8,9 @@ import { useContextApi } from "@/app/context/getContext";
 import { useFormContext } from "@/app/context/formContext";
 import { setTokenOnServer } from "@/lib/setToken";
 import Cookies from "js-cookie"
+import { getCookie } from "@/lib/getCookie";
 
 
-export function getCookie(name: string): string | null {
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) {
-    return parts.pop()?.split(';').shift() ?? null; // Ensuring a safe fallback to null if the split fails
-  }
-  return null;
-}
 
 const CallbackPage: React.FC = () => {
   const router = useRouter();

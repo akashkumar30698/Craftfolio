@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { createRandomId } from './utils'
 import Cookies from "js-cookie"
-import { getCookie } from '@/app/integrations/vercel/oauth2/callback/page'
+import { getCookie } from './getCookie'
 
 
 
