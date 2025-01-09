@@ -31,10 +31,10 @@ const CallbackPage: React.FC = () => {
       if (typeof window === "undefined") return; // Ensure this runs in the browser
 
       const queryPart = window.location.search; // Get the query string from the URL
-      queryPart.includes("?") ? queryPart.split("?")[1] : null;
+      const hello =  queryPart.includes("?") ? queryPart.split("?")[1] : null;
 
       if (!queryPart) {
-        console.error("No query string found in the URL.");
+        console.error("No query string found in the URL.",hello);
         setStepStatus("No query string found in the URL")
         setIsLoading(false)
         return;

@@ -98,58 +98,17 @@ export function RealTimeHtml({ device }: RealTimeHtmlProps) {
       const iframeDocument = iframe.contentWindow.document;
 
       const bio = iframeDocument.getElementById("info-para")?.textContent;
-      iframeDocument.getElementById("about-me")?.textContent;
 
-      (iframeDocument.getElementById(
-        "about-me-image"
-      ) as HTMLImageElement)?.src;
-      (iframeDocument.getElementById(
-        "project-one-image"
-      ) as HTMLImageElement)?.src;
-      (iframeDocument.getElementById(
-        "project-two-image"
-      ) as HTMLImageElement)?.src;
-      (iframeDocument.getElementById(
-        "project-three-image"
-      ) as HTMLImageElement)?.src;
+  
 
       const projectOneTitle = iframeDocument.getElementById("project-one-title");
-      iframeDocument.getElementById("project-two-title")?.textContent;
-      iframeDocument.getElementById("project-three-title")?.textContent;
+    
 
-      iframeDocument.getElementById(
-        "project-one-description"
-      )?.textContent;
-      iframeDocument.getElementById(
-        "project-two-description"
-      )?.textContent;
-      iframeDocument.getElementById(
-        "project-three-description"
-      )?.textContent;
+     
 
-      (iframeDocument.getElementById(
-        "project-one-githubRepo"
-      ) as HTMLAnchorElement)?.href;
-      (iframeDocument.getElementById(
-        "project-two-githubRepo"
-      ) as HTMLAnchorElement)?.href;
-      (iframeDocument.getElementById(
-        "project-three-githubRepo"
-      ) as HTMLAnchorElement)?.href;
+  
 
-      (iframeDocument.getElementById(
-        "project-one-liveLink"
-      ) as HTMLAnchorElement)?.href;
-      (iframeDocument.getElementById(
-        "project-two-liveLink"
-      ) as HTMLAnchorElement)?.href;
-      (iframeDocument.getElementById(
-        "project-three-liveLink"
-      ) as HTMLAnchorElement)?.href;
-
-      (iframeDocument.getElementById("linkedin-url") as HTMLAnchorElement)
-        ?.href;
-      (iframeDocument.getElementById("github-url") as HTMLAnchorElement)?.href;
+      
       const email = (iframeDocument.getElementById("user-email") as HTMLAnchorElement)?.href;
       let resume = (iframeDocument.getElementById("resume") as HTMLAnchorElement)
 
