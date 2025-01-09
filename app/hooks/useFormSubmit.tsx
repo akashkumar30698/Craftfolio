@@ -45,14 +45,13 @@ interface CloudinaryResponse {
 type FormDataProps = FormData & {
   projects: Array<{
     photo: string
-    [key: string]: any
   }>
   photo: string
   resume: string
   intiatingUser: string
 }
 
-let parsedFormData: any
+let parsedFormData
 
 export function useFormSubmit() {
   const {  setRandomId, setStepStatus, setIsLoading } = useFormContext()
@@ -121,7 +120,7 @@ export function useFormSubmit() {
   }
 
 
-  function replaceFileWithLinks(formData: FormDataProps, cloudinaryResponse: CloudinaryResponse): FormDataProps {
+  function replaceFileWithLinks(formData, cloudinaryResponse: CloudinaryResponse): FormDataProps {
     const updatedFormData = { ...formData };
 
     if (cloudinaryResponse.data) {
