@@ -77,7 +77,7 @@ export function RealTimeHtml({ device }: RealTimeHtmlProps) {
   const searchParams = useSearchParams();
   const { formData, selectedSkills } = useFormContext();
   const iframeRef = useSharedIframeRef();
-
+      
   useEffect(() => {
     getIframeRef = iframeRef
   }, [iframeRef])
