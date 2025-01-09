@@ -11,11 +11,12 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: "Authorization code is missing" }, { status: 400 });
         }
 
+
         // Make the POST request to exchange the code for an access token
         const response = await axios.post(
             "https://api.vercel.com/v2/oauth/access_token",
             new URLSearchParams({
-                code,
+                code: code,
                 client_id: process.env.VERCEL_CLIENT_ID || "",
                 client_secret: process.env.VERCEL_CLIENT_SECRET || "",
                 redirect_uri: `http://localhost:3000/integrations/vercel/oauth2/callback`, // Replace with your actual domain
@@ -45,6 +46,7 @@ export async function POST(req: NextRequest) {
             sameSite: "strict", // Prevents cross-site requests
             maxAge: 3600, // Expiry in seconds
         });
+
 
         return nextResponse;
     } catch (err) {

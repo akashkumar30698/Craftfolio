@@ -1,30 +1,41 @@
-import mongoose, { Schema, Document, model, models } from 'mongoose';
+import mongoose, { Document, Schema } from 'mongoose';
 
-// Define the schema for the "users" collection
-const UserSchema = new Schema({
-  username: {
-    type: String,
-    unique: true,
-  },
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  password: {
-    type: String,
-    required: true,
-  },
-});
-
-// Define the User interface for TypeScript
-interface UserDocument extends Document {
-  username: string;
+// Interface for the user document
+export interface IUser extends Document {
+  name: string;
   email: string;
-  password: string;
+  profession: string;
+  bio: string;
+  aboutMe: string;
+  photo: string;
+  resume: string;
+  projects: string[];
+  skills: string[];
+  socialLinks: {
+    [key: string]: string;
+  };
+  initiatingUser: boolean;
+  randomId: string;
 }
 
-// Check if the model already exists, and if so, use it instead of redefining
-const User = models.User || model<UserDocument>('User', UserSchema);
+// Schema definition
+const userSchema = new Schema<IUser>({
+  name: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  profession: { type: String, required: true },
+  bio: { type: String, required: true },
+  aboutMe: { type: String, required: true },
+  photo: { type: String, required: true },
+  resume: { type: String, required: true },
+  projects: { type: [String], default: [] },
+  skills: { type: [String], default: [] },
+  socialLinks: { type: Map, of: String, default: {} },
+  initiatingUser: { type: Boolean, default: false },
+  randomId: { type: String, required: true }
+}, {
+  timestamps: true
+});
 
-export default User;
+// Create and export the model
+export default mongoose.models.User || mongoose.model<IUser>('User', userSchema);
+

@@ -4,8 +4,8 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { UserProvider } from "./context/getContext";
 import { FormProvider } from "./context/formContext";
-import { SessionProvider } from "next-auth/react";
-import { ClerkProvider, SignInButton, SignedIn, UserButton, SignedOut } from '@clerk/nextjs'
+import { Toaster } from "@/components/ui/toaster"
+import { ClerkProvider} from '@clerk/nextjs'
 
 
 
@@ -35,12 +35,12 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          <FormProvider>
-          <UserProvider>
-            {children}
-          </UserProvider>
-          </FormProvider>
-         
+            <FormProvider>
+              <UserProvider>
+               {children}
+               <Toaster />
+             </UserProvider>
+           </FormProvider>
         </body>
       </html>
     </ClerkProvider>

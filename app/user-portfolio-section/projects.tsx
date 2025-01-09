@@ -1,7 +1,6 @@
 "use client"
 
-import { useState, ChangeEvent, FormEvent, useEffect } from 'react'
-import { Button } from "@/components/ui/button"
+import { useState, ChangeEvent, useEffect } from 'react'
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
@@ -19,7 +18,7 @@ interface ProjectData {
 
 export default function MultiProjectForm() {
 
-  const { formData, updateFormData } = useFormContext()
+  const { updateFormData } = useFormContext()
   const [projects, setProjects] = useState<ProjectData[]>([
     { id: '1', title: '', description: '', photo: null, repoLink: '', liveLink: '' },
     { id: '2', title: '', description: '', photo: null, repoLink: '', liveLink: '' },
@@ -44,38 +43,12 @@ export default function MultiProjectForm() {
   }
 
   useEffect(()=>{
-    console.log("projects at useEffect",projects)
     updateFormData("projects",projects)
   },[projects])
 
 
   
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const isValid = projects.every(project => project.title && project.description && project.photo)
-    if (isValid) {
-      console.log('Projects Data:', projects)
-      // Here you would typically send this data to your backend
-      // You might want to use FormData to handle file uploads
-      const formData = new FormData()
-      projects.forEach((project, index) => {
-        formData.append(`project${index + 1}Title`, project.title)
-        formData.append(`project${index + 1}Description`, project.description)
-        if (project.photo) {
-          formData.append(`project${index + 1}Photo`, project.photo)
-        }
-      })
-
-      // Example of how you might send this to a server:
-      // await fetch('/api/projects', { method: 'POST', body: formData })
-
-      alert('All projects submitted successfully!')
-      // Reset form after submission if needed
-      // setProjects(projects.map(p => ({ ...p, title: '', description: '', photo: null })))
-    } else {
-      alert('Please fill in all fields for each project and upload photos')
-    }
-  }
+  
 
   return (
     <>

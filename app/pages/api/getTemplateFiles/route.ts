@@ -37,7 +37,6 @@ export async function GET(req: NextApiRequest) {
 
   try {
     const targetPath = path.join(process.cwd(), fileName);
-    console.log('Target Path:', targetPath);
 
     if (!fs.existsSync(targetPath)) {
       return NextResponse.json({ error: 'File or folder not found' }, { status: 404 });

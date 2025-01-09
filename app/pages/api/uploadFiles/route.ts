@@ -9,9 +9,6 @@ export async function POST(request: Request): Promise<Response> {
     const repoInfo = request.headers.get('x-github-repo');
     const filesHeader = request.headers.get('x-file-paths');
 
-    console.log("repoInfo:", repoInfo);
-    console.log("Token:", githubToken);
-    console.log("Files Path (header):", filesHeader);
 
     // Ensure that required headers are present
     if (!githubToken || !repoInfo || !filesHeader) {
@@ -59,7 +56,6 @@ export async function POST(request: Request): Promise<Response> {
             message: `Add ${path.basename(filePath)}`,
             content: Buffer.from(fileContent).toString('base64'),
           });
-          console.log("GitHub Response:", response);
           return response.data;
         } catch (uploadError) {
           console.error(`Error uploading file ${filePath}:`, uploadError);

@@ -95,7 +95,7 @@ export default function TimelineSection() {
   ];
   return (
     <div className="w-full">
-
+ 
         <FormProvider>
           <FormWrapper>
             <Timeline data={data} />

@@ -8,19 +8,19 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Company Info */}
           <div>
-            <h2 className="text-2xl font-bold text-white mb-4">Your Company</h2>
-            <p className="mb-4">Empowering innovation through technology. We're dedicated to creating solutions that make a difference.</p>
+            <h2 className="text-2xl font-bold text-white mb-4">Craftfolio</h2>
+            <p className="mb-4">Empowering creatives to showcase their work. Build stunning portfolios and deploy them effortlessly with our platform.</p>
             <div className="flex space-x-4">
-              <a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">
+              <a href="https://facebook.com/portfoliocreator" className="text-gray-400 hover:text-white transition-colors duration-300">
                 <Facebook size={20} />
               </a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">
+              <a href="https://twitter.com/portfoliocreator" className="text-gray-400 hover:text-white transition-colors duration-300">
                 <Twitter size={20} />
               </a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">
+              <a href="https://instagram.com/portfoliocreator" className="text-gray-400 hover:text-white transition-colors duration-300">
                 <Instagram size={20} />
               </a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">
+              <a href="https://linkedin.com/company/portfoliocreator" className="text-gray-400 hover:text-white transition-colors duration-300">
                 <Linkedin size={20} />
               </a>
             </div>
@@ -34,16 +34,16 @@ const Footer = () => {
                 <Link href="/" className="hover:text-white transition-colors duration-300">Home</Link>
               </li>
               <li>
-                <Link href="/about" className="hover:text-white transition-colors duration-300">About Us</Link>
+                <Link href="/features" className="hover:text-white transition-colors duration-300">Features</Link>
               </li>
               <li>
-                <Link href="/services" className="hover:text-white transition-colors duration-300">Services</Link>
+                <Link href="/templates" className="hover:text-white transition-colors duration-300">Templates</Link>
               </li>
               <li>
-                <Link href="/portfolio" className="hover:text-white transition-colors duration-300">Portfolio</Link>
+                <Link href="/pricing" className="hover:text-white transition-colors duration-300">Pricing</Link>
               </li>
               <li>
-                <Link href="/contact" className="hover:text-white transition-colors duration-300">Contact</Link>
+                <Link href="/blog" className="hover:text-white transition-colors duration-300">Blog</Link>
               </li>
             </ul>
           </div>
@@ -54,15 +54,15 @@ const Footer = () => {
             <ul className="space-y-2">
               <li className="flex items-center">
                 <MapPin size={18} className="mr-2" />
-                <span>123 Innovation Street, Tech City, 12345</span>
+                <span>456 Creator Avenue, Portfolio City, 67890</span>
               </li>
               <li className="flex items-center">
                 <Phone size={18} className="mr-2" />
-                <span>+1 (555) 123-4567</span>
+                <span>+1 (555) 987-6543</span>
               </li>
               <li className="flex items-center">
                 <Mail size={18} className="mr-2" />
-                <span>info@yourcompany.com</span>
+                <span>support@portfoliocreator.com</span>
               </li>
             </ul>
           </div>
@@ -70,7 +70,7 @@ const Footer = () => {
 
         {/* Bottom Bar */}
         <div className="border-t border-gray-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
-          <p>&copy; {new Date().getFullYear()} Your Company. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Craftfolio. All rights reserved.</p>
           <nav className="mt-4 md:mt-0">
             <ul className="flex space-x-4">
               <li>

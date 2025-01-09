@@ -13,7 +13,7 @@ export const SkeletonOne = () => {
       <div className="w-full p-5 mx-auto bg-white dark:bg-neutral-900 shadow-2xl group h-full">
         <div className="flex flex-1 w-full h-full flex-col space-y-2">
           <Image
-            src="/pubg.jpg"
+            src="/header.png"
             alt="header"
             width={800}
             height={800}
@@ -28,7 +28,10 @@ export const SkeletonOne = () => {
 }
 
 export const SkeletonTwo = () => {
-  const images = ["/pubg.jpg"]
+  const images = ["/header.png",
+    "/skills.png",
+    "/deploy.png"
+  ]
 
   const imageVariants = {
     whileHover: {

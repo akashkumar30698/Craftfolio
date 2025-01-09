@@ -2,14 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import cloudinary from '@/lib/cloudinary';
 import { Readable } from 'stream';
 
-interface ProjectData {
-  id: string;
-  title: string;
-  description: string;
-  liveLink: string;
-  repoLink: string;
-}
-
 async function uploadToCloudinary(file: File): Promise<{ secure_url: string; public_id: string }> {
   const bytes = await file.arrayBuffer();
   const buffer = Buffer.from(bytes);
@@ -37,24 +29,75 @@ async function uploadToCloudinary(file: File): Promise<{ secure_url: string; pub
   });
 }
 
+
+function convertToFile(photoName: string): File {
+
+
+  // Extract the file extension
+  const fileExtension = photoName.split('.').pop()?.toLowerCase();
+
+  // Determine the MIME type based on the file extension
+  let mimeType: string;
+  switch (fileExtension) {
+    case 'jpg':
+    case 'jpeg':
+      mimeType = 'image/jpeg';
+      break;
+    case 'png':
+      mimeType = 'image/png';
+      break;
+    case 'pdf':
+      mimeType = 'application/pdf';
+      break;
+    default:
+      throw new Error('Unsupported file type');
+  }
+
+  // Create a Blob with the MIME type (replace with actual file data if needed)
+  const photoBlob = new Blob([photoName], { type: mimeType });
+
+  // Use the File constructor to create the File object
+  const file = new File([photoBlob], photoName, { type: mimeType });
+
+  return file;
+}
+
+
+// Function to convert the photos in an array to File objects
+async function convertPhotosToFiles(data: { id: string; title: string; description: string; photo: string }[]): Promise<{ id: string; title: string; description: string; photo: File }[]> {
+  const convertedData = await Promise.all(data.map(async (item) => {
+    const file = await convertToFile(item.photo);
+    return {
+      ...item,
+      photo: file,
+    };
+  }));
+
+  return convertedData;
+}
+
+
+
+
 export async function POST(request: NextRequest) {
   try {
     const data = await request.formData();
 
-    console.log('Received FormData entries:');
-    for (let [key, value] of data.entries()) {
-      console.log(key, value);
-    }
 
-    const photo = data.get('photo') as File | null;
-    const resume = data.get('resume') as File | null;
+    
+
+    // Process files
+    const rawPhoto = data.get('photo') as string
+    const rawResume = data.get('resume') as string
+    const photo = convertToFile(rawPhoto)
+    const resume = convertToFile(rawResume)
+
+
 
     if (!photo || !resume) {
-      console.log("Missing photo or resume:", photo, resume);
+      console.error('Missing photo or resume:', photo, resume);
       return NextResponse.json({ error: 'Missing required files' }, { status: 400 });
     }
-
-    console.log("photo:", photo);
 
     const uploadResults = {
       mainPhoto: await uploadToCloudinary(photo),
@@ -62,33 +105,31 @@ export async function POST(request: NextRequest) {
       projects: []
     };
 
-    // Process projects
+    // Process project files
     const projects = [];
-    let index = 1; 
-    const temp = data.get(`project_1`);
-    console.log("temp:", temp);
+    let index = 0;
 
-    while (data.get(`project_${index}`)) {
-      const projectData = data.get(`project_${index}`) as File | null;
-      console.log(`project_${index}:`, projectData);
+    while (data.has(`project_${index}`)) {
+      const rawProjectFile: any = data.get(`project_${index}`) 
+      const parsedProjectFile = JSON.parse(rawProjectFile);
+      const projectFile = convertToFile(parsedProjectFile.photo)
 
-      if  ( projectData) {
-        const photoUpload = await uploadToCloudinary(projectData);
-         projects.push({
-          ...projectData,
-          photo: photoUpload.secure_url
+      if (projectFile) {
+        const uploadedProjectPhoto = await uploadToCloudinary(projectFile);
+        projects.push({
+          photo: uploadedProjectPhoto.secure_url,
+          public_id: uploadedProjectPhoto.public_id,
+          metadata: JSON.parse(data.get(`project_metadata_${index}`) as string || '{}')
         });
-      } else {
-        projects.push(projectData);
       }
 
       index++;
     }
 
-    // Process other form data
+    // Process other non-file form data
     const processedData: Record<string, any> = {};
     for (const [key, value] of data.entries()) {
-      if (!['photo', 'resume'].includes(key) && !key.startsWith('project_') && !key.startsWith('project_photo_')) {
+      if (!['photo', 'resume'].includes(key) && !key.startsWith('project_')) {
         try {
           processedData[key] = JSON.parse(value as string);
         } catch {
@@ -104,9 +145,7 @@ export async function POST(request: NextRequest) {
       projects: projects
     };
 
-    // Here you would typically save finalData to your database
-    // For this example, we'll just return it
-
+    // Return processed data
     return NextResponse.json({
       message: 'Form data processed successfully',
       data: finalData
@@ -114,7 +153,6 @@ export async function POST(request: NextRequest) {
 
   } catch (error) {
     console.error('Upload error:', error);
-    return NextResponse.json({ error: 'Upload failed' }, { status: 500 });
+    return NextResponse.json({ error: 'Upload failed', details: error }, { status: 500 });
   }
 }
-

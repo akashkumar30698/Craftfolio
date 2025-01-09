@@ -2,7 +2,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import axios from 'axios';
 import { NextResponse } from 'next/server';
-import  { serialize } from "cookie"
+
 
 export async function GET(req: NextApiRequest, res: NextApiResponse) {
     const url = req.url || "";
@@ -13,7 +13,6 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
     const extractCoded = urlObj.searchParams.get('code');
 
 
-    console.log("req :", extractCoded)
 
     if (!extractCoded) {
         return NextResponse.json({ error: 'Code is required' });
@@ -38,9 +37,15 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
             return NextResponse.json({ error: 'Failed to retrieve access token' });
         }
 
-        
 
-        const loginUrl = new URL('/', req.url);
+
+        // Set the cookie with the access token
+       /// res.setHeader('Set-Cookie', [
+       //     `github_access_token=${access_token}; Path=/; HttpOnly; Secure; SameSite=Strict`
+       // ]);
+
+
+        const loginUrl = new URL('/deployment', req.url);
         loginUrl.searchParams.set('github_access_token', access_token);
 
         return NextResponse.redirect(loginUrl.toString());
@@ -48,3 +53,5 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
         return NextResponse.json({ error: 'Error exchanging code for access token' });
     }
 }
+
+

@@ -2,7 +2,6 @@
 
 import * as React from "react"
 
-import { Button } from "@/components/ui/button"
 import {
   Card,
   CardContent,
@@ -73,5 +72,3 @@ export function CardSection() {
 </Select>
 
 
-//<Button variant="outline">Cancel</Button>
-//<Button>Deploy</Button>

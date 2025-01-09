@@ -6,7 +6,6 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useFormContext } from '../context/formContext'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card"
-import { PlusCircle, X } from 'lucide-react'
 
 interface SocialLink {
     id: string
@@ -25,48 +24,23 @@ export default function SocialMediaLinksForm({ isSubmitting }: SubmitButtonProps
     const [socialLinks, setSocialLinks] = useState<SocialLink[]>(
         commonPlatforms.map(platform => ({ id: platform.toLowerCase(), platform, url: '' }))
     )
-    const [customLinks, setCustomLinks] = useState<SocialLink[]>([])
     const { formData, updateFormData } = useFormContext()
 
     useEffect(()=>{
       updateFormData("socialLinks", socialLinks)
-
     },[socialLinks])
 
     const handleLinkChange = (id: string, e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target
-
         setSocialLinks(links =>
             links.map(link => link.id === id ? { ...link, [name]: value } : link)
         )
     }
 
-    const handleCustomLinkChange = (id: string, e: ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target
-        setCustomLinks(links =>
-            links.map(link => link.id === id ? { ...link, [name]: value } : link)
-        )
-    }
+   
 
-    const addCustomLink = () => {
-        const newId = `custom-${Date.now()}`
-        setCustomLinks([...customLinks, { id: newId, platform: '', url: '' }])
-    }
+    
 
-    const removeCustomLink = (id: string) => {
-        setCustomLinks(links => links.filter(link => link.id !== id))
-    }
-
-    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
-        const allLinks = [...socialLinks, ...customLinks]
-        const validLinks = allLinks.filter(link => link.url.trim() !== '')
-        console.log('Social Media Links:', validLinks)
-        // Here you would typically send this data to your backend
-        // await fetch('/api/social-links', { method: 'POST', body: JSON.stringify(validLinks) })
-
-        // alert('Social media links submitted successfully!')
-    }
 
     return (
         <Card className="w-[350px]">
@@ -97,7 +71,7 @@ export default function SocialMediaLinksForm({ isSubmitting }: SubmitButtonProps
                     </div>
 
                     <Button type="submit" disabled={isSubmitting}>
-                        {isSubmitting ? 'Submitting...' : 'Submit'}
+                        {isSubmitting ? 'Submitting...' : 'Submimt'}
                     </Button>
                 </div>
             </CardContent>

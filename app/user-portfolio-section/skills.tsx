@@ -1,9 +1,7 @@
 "use client"
 
 import { useState } from 'react'
-import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
-import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useFormContext } from '../context/formContext'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card"
@@ -55,15 +53,12 @@ const predefinedSkills = [
     { id: "supabase", label: "SUPABASE" },
     { id: "django", label: "DJANGO" },
     { id: "flask", label: "FLASK" },
-    { id: "rubyonrails", label: "RUBY ON RAILS" },
     { id: "electron", label: "ELECTRON.JS" }
 ]
 
 export default function SkillsForm() {
     const [selectedSkills, setSelectedSkills] = useState<string[]>([])
-    const [customSkill, setCustomSkill] = useState("")
-    const [customSkills, setCustomSkills] = useState<string[]>([])
-    const { formData ,updateFormData } = useFormContext()
+    const { updateFormData } = useFormContext()
 
     const handleSkillChange = (skill: string, checked: boolean) => {
         setSelectedSkills((prev) =>
@@ -74,19 +69,6 @@ export default function SkillsForm() {
 
       
 
-    const handleAddCustomSkill = () => {
-        if (customSkill && !customSkills.includes(customSkill)) {
-            setCustomSkills(prev => [...prev, customSkill])
-            setCustomSkill("")
-        }
-    }
-
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault()
-        const allSkills = [...selectedSkills, ...customSkills]
-        console.log("Submitted skills:", allSkills)
-        // Here you would typically send this data to your backend
-    }
 
     return (
         <Card className="w-[350px]">
@@ -100,9 +82,9 @@ export default function SkillsForm() {
                             {predefinedSkills.map((skill) => (
                                 <div key={skill.id} className="flex items-center space-x-2">
                                     <Checkbox
-                                        id={skill.id}
-                                        checked={selectedSkills.includes(skill.id)}
-                                        onCheckedChange={(checked) => handleSkillChange(skill.id,checked as boolean)}
+                                        id={skill.id.toUpperCase()}
+                                        checked={selectedSkills.includes(skill.id.toUpperCase())}
+                                        onCheckedChange={(checked) => handleSkillChange(skill.id.toUpperCase(),checked as boolean)}
                                     />
                                     <Label htmlFor={skill.id}>{skill.label}</Label>
                                 </div>
@@ -121,5 +103,4 @@ export default function SkillsForm() {
 
 
 
-//<Button type="submit" className="w-full">Submit Skills</Button>
 

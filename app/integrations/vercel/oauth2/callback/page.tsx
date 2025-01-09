@@ -1,52 +1,90 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
 import queryString from "query-string";
 import { useRouter } from "next/navigation";
 import { useContextApi } from "@/app/context/getContext";
+import { useFormContext } from "@/app/context/formContext";
+import { setTokenOnServer } from "@/lib/setToken";
+import Cookies from "js-cookie"
+
+
+export function getCookie(name: string): string | null {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) {
+    return parts.pop()?.split(';').shift() ?? null; // Ensuring a safe fallback to null if the split fails
+  }
+  return null;
+}
 
 const CallbackPage: React.FC = () => {
   const router = useRouter();
-  const { setVercelAccessToken }  = useContextApi()
+  const { setVercelAccessToken } = useContextApi()
+  const {  setIsLoading,setStepStatus } = useFormContext()
+
 
   useEffect(() => {
     const handleCallback = async () => {
+      setIsLoading(true)
       if (typeof window === "undefined") return; // Ensure this runs in the browser
 
       const queryPart = window.location.search; // Get the query string from the URL
-      const codeFound = queryPart.includes("?") ? queryPart.split("?")[1] : null;
-      console.log("queryPart :", codeFound);
+      queryPart.includes("?") ? queryPart.split("?")[1] : null;
 
       if (!queryPart) {
         console.error("No query string found in the URL.");
+        setStepStatus("No query string found in the URL")
+        setIsLoading(false)
         return;
       }
 
       const { code, state } = queryString.parse(queryPart);
-      console.log("code :", code);
 
       // Validate the state parameter
-      const latestCSRFToken = localStorage.getItem("latestCSRFToken");
+      const latestCSRFToken = getCookie("latestCSRFToken");
       if (state !== latestCSRFToken) {
         console.error("Invalid CSRF token.");
+        setStepStatus("Invalid CSRF token")
+        setIsLoading(false)
         localStorage.removeItem("latestCSRFToken");
-        return;
+        router.push("/error")
+        return ;
       }
 
       try {
         // Send the code to the backend
         const res = await axios.post("/pages/api/oauth-token", { code });
-        console.log("OAuth token exchange response:", res.data);
 
         // Store the token in React state and localStorage
-        setVercelAccessToken(res.data.access_token);
-        localStorage.setItem("vercel_access_token", res.data.access_token);
+          setVercelAccessToken(res.data.access_token);
 
+
+
+             setStepStatus("Setting Token")
+
+          const cookieSetResult = await setTokenOnServer(res.data.access_token,"vercel_access_token")
+
+        const githubToken = Cookies.get("github_access_token")
+
+
+        if (!githubToken || !cookieSetResult) {
+          console.error("No GitHub token found or error setting cookie ");
+          setIsLoading(false)
+          setStepStatus("No GitHub token found or error setting cookie")
+          return
+        }
+
+        setIsLoading(false)
         // Redirect to the home page
-        router.push("/");
+        router.push("/deployment?github_access_token=" + githubToken + "&deployment_process=" + 3);
+        setStepStatus(null)
+
       } catch (error) {
         setVercelAccessToken(null); // Reset token on error
+        setStepStatus("Error during OAuth token exchange")
+        setIsLoading(false)
         console.error("Error during OAuth token exchange:", error);
       }
     };
@@ -56,7 +94,9 @@ const CallbackPage: React.FC = () => {
 
   return (
     <>
-      <div>Callback Page</div>
+     <div className="flex items-center justify-center min-h-screen">
+      <p className="text-lg">Processing your authentication.This may take a few seconds...</p>
+    </div>
     </>
   );
 };

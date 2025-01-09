@@ -5,44 +5,44 @@ import { Grid } from "./Grid"
 
 const grid = [
   {
-    title: "HIPAA and SOC2 Compliant",
-    description:
-      "Our applications are HIPAA and SOC2 compliant, your data is safe with us, always.",
-  },
-  {
-    title: "Automated Social Media Posting",
-    description:
-      "Schedule and automate your social media posts across multiple platforms to save time and maintain a consistent online presence.",
-  },
-  {
-    title: "Advanced Analytics",
-    description:
-      "Gain insights into your social media performance with detailed analytics and reporting tools to measure engagement and ROI.",
-  },
-  {
-    title: "Content Calendar",
-    description:
-      "Plan and organize your social media content with an intuitive calendar view, ensuring you never miss a post.",
-  },
-  {
-    title: "Audience Targeting",
-    description:
-      "Reach the right audience with advanced targeting options, including demographics, interests, and behaviors.",
-  },
-  {
-    title: "Social Listening",
-    description:
-      "Monitor social media conversations and trends to stay informed about what your audience is saying and respond in real-time.",
-  },
-  {
     title: "Customizable Templates",
     description:
-      "Create stunning social media posts with our customizable templates, designed to fit your brand's unique style and voice.",
+      "Choose from a wide range of professionally designed templates to kickstart your portfolio creation process.",
   },
   {
-    title: "Collaboration Tools",
+    title: "Drag-and-Drop Editor",
     description:
-      "Work seamlessly with your team using our collaboration tools, allowing you to assign tasks, share drafts, and provide feedback in real-time.",
+      "Easily customize your portfolio with our intuitive drag-and-drop interface, no coding skills required.",
+  },
+  {
+    title: "Project Showcases",
+    description:
+      "Highlight your best work with dedicated project pages, including images, descriptions, and links.",
+  },
+  {
+    title: "Responsive Design",
+    description:
+      "Ensure your portfolio looks great on all devices with our mobile-first, responsive design approach.",
+  },
+  {
+    title: "SEO Optimization",
+    description:
+      "Boost your online visibility with built-in SEO tools and best practices for better search engine rankings.",
+  },
+  {
+    title: "One-Click Vercel Deployment",
+    description:
+      "Deploy your portfolio to Vercel's global CDN with just one click, ensuring fast load times worldwide.",
+  },
+  {
+    title: "Custom Domains",
+    description:
+      "Connect your own domain name to your portfolio for a professional and branded online presence.",
+  },
+  {
+    title: "Analytics Integration",
+    description:
+      "Track your portfolio's performance with built-in analytics, providing insights on visitors and engagement.",
   },
 ]
 
