@@ -3,7 +3,7 @@ import axios from 'axios';
 import { NextResponse,NextRequest } from 'next/server';
 
 
-export async function GET(req: NextRequest, res: NextResponse) {
+export async function GET(req: NextRequest) {
     const url = req.url || "";
     // Create a URL object
     const urlObj = new URL(url);
@@ -16,7 +16,6 @@ export async function GET(req: NextRequest, res: NextResponse) {
     if (!extractCoded) {
         return NextResponse.json({ error: 'Code is required' });
     }
-    console.log(res)
     try {
         const response = await axios.post('https://github.com/login/oauth/access_token', null, {
             params: {
