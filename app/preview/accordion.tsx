@@ -23,7 +23,6 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card"
 import { useIframeRef } from './realTimeHtml'
 import ColorPickerComp from './Color'
-import Image from 'next/image'
 
 
 
@@ -101,7 +100,7 @@ const predefinedSkills = [
 const commonPlatforms = ['LinkedIn', 'Github']
 
 export function DashboardSidebar() {
-    const [isCollapsed, setIsCollapsed] = React.useState(false)
+    const [isCollapsed ] = React.useState(false)
     const { formData, updateFormData,selectedSkills ,setSelectedSkills } = useFormContext()
     const [projects, setProjects] = useState<ProjectData[]>([
         { id: '1', title: '', description: '', photo: null, repoLink: '', liveLink: '' },
@@ -121,8 +120,7 @@ export function DashboardSidebar() {
 
     useEffect(() => {
         updateFormData("socialLinks", socialLinks)
-     console.log(setIsCollapsed(false))
-    }, [socialLinks,setIsCollapsed,updateFormData])
+    }, [socialLinks])
 
     const handleLinkChange = (id: string, e) => {
         const { name, value } = e.target
@@ -180,7 +178,7 @@ export function DashboardSidebar() {
 
     useEffect(() => {
         updateFormData("projects", projects)
-    }, [projects,updateFormData])
+    }, [projects])
 
     const handleSkillChange = (skill: string, checked: boolean) => {
         setSelectedSkills((prev) =>
@@ -212,7 +210,7 @@ export function DashboardSidebar() {
 
                                             <div className="flex flex-col ">
                                                 <Label htmlFor="bio" className='mb-3'>Your Bio</Label>
-                                                <Textarea  />
+                                                <Textarea />
                                             </div>
                                         </AccordionContent>
                                     </AccordionItem>
@@ -308,7 +306,7 @@ export function DashboardSidebar() {
                                                                     />
                                                                     {project.photo && (
                                                                         <div className="mt-2">
-                                                                            <Image
+                                                                            <img
                                                                                 src={URL.createObjectURL(project.photo)}
                                                                                 alt={`Project ${index + 1} preview`}
                                                                                 className="max-w-full h-auto rounded-md"

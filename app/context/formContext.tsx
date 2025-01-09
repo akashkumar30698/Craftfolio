@@ -28,7 +28,7 @@ export const FormProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
 
 
-  const updateFormData = (field: string, value) => {
+  const updateFormData = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }))
   }
 

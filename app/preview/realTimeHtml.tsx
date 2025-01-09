@@ -196,9 +196,7 @@ export function RealTimeHtml({ device }: RealTimeHtmlProps) {
           } else {
             console.warn("Element with ID 'about-me-image' not found.");
           }
-        } else {
-          console.warn("No photo data found in formData.");
-        }
+        } 
 
         if (formData.projects) {
           if (formData.projects[0]?.photo) {
