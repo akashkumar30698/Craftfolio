@@ -14,6 +14,8 @@ import { useFormContext } from "../context/formContext"
 import { createRandomId } from "@/lib/utils"
 import { Loader2 } from 'lucide-react'
 import { RainbowButton } from "@/components/ui/rainbow-button"
+import { Suspense } from "react"
+import Loading from "../(main)/loading"
 
 
 
@@ -134,10 +136,14 @@ export default function DashboardPage() {
                 </div>
 
                  <TabsContent value="mobile" className="flex-1 overflow-auto">
-                { /* <RealTimeHtml device="mobile" /> */ }
+                  <Suspense fallback={<Loading/>}>
+                  <RealTimeHtml device="mobile" />
+                  </Suspense>
                  </TabsContent>
                  <TabsContent value="laptop" className="flex-1 overflow-auto">
-                 { /* <RealTimeHtml device="laptop" /> */ }
+                  <Suspense fallback={<Loading/>}>
+                  <RealTimeHtml device="laptop" />
+                  </Suspense>
                  </TabsContent>
 
               </Tabs>

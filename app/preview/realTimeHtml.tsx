@@ -3,7 +3,6 @@
 import React, { useEffect, useRef, MutableRefObject } from "react";
 import { useSearchParams } from "next/navigation";
 import { useFormContext } from "../context/formContext";
-import { Suspense } from 'react';
 
 
 // Create a custom hook to manage the shared ref
@@ -436,7 +435,6 @@ export function RealTimeHtml({ device }: RealTimeHtmlProps) {
   return (
 
     <>
-      <Suspense fallback={<div>Loading...</div>}>
         <div className={`w-full h-full bg-gray-100 rounded-lg ${device === 'laptop' ? 'max-w-sm mx-auto' : ''}`}>
           <iframe
             ref={iframeRef}
@@ -446,7 +444,6 @@ export function RealTimeHtml({ device }: RealTimeHtmlProps) {
             title={`${device} preview`}
           />
         </div>
-      </Suspense>
     </>
 
 
