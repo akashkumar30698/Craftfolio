@@ -23,6 +23,7 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card"
 import { useIframeRef } from './realTimeHtml'
 import ColorPickerComp from './Color'
+import Image from 'next/image'
 
 
 
@@ -295,7 +296,7 @@ export function DashboardSidebar() {
                                                                     />
                                                                     {project.photo && (
                                                                         <div className="mt-2">
-                                                                            <img
+                                                                            <Image
                                                                                 src={URL.createObjectURL(project.photo)}
                                                                                 alt={`Project ${index + 1} preview`}
                                                                                 className="max-w-full h-auto rounded-md"
