@@ -54,57 +54,30 @@ type FormDataProps = FormData & {
 let parsedFormData
 
 export function useFormSubmit() {
-  const {  setRandomId, setStepStatus, setIsLoading } = useFormContext()
+  const { setRandomId, setStepStatus, setIsLoading } = useFormContext()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitResult, setSubmitResult] = useState<SubmitResult | null>(null)
 
-  
+
 
 
 
   const handleFilesToCloudinary = async (fileData): Promise<CloudinaryResponse | null> => {
-    if (Object.keys(fileData).length === 0) {
-      console.error("No file content found", fileData)
-      return null
+
+    console.log("file hi hihihi :", fileData)
+
+    // Check if FormData is empty
+    if (fileData && fileData.has('photo') && fileData.has('resume') && fileData.has('project_0') && fileData.has('project_1') && fileData.has('project_2')) {
+      console.log("Form data contains all required files");
+    } else {
+      console.error("Missing required files in form data");
+      return null;
     }
-
-    // Convert fileData to FormData
-  //  const formData = new FormData();
-
-
-    const formData = new FormData();
-
-    // Add fields to FormData
-    Object.entries(fileData).forEach(([key, value]) => {
-      if (key === 'photo' || key === 'resume') {
-        // Add photo and resume as string filenames
-        if (typeof value === 'string') {
-          formData.append(key, value);
-        }
-      } else if (key === 'projects' && Array.isArray(value)) {
-        value.forEach((project, index) => {
-          // Append project details
-          formData.append(`project_${index}`, JSON.stringify(project));
-          if (typeof project.photo === 'string') {
-            // Append project photo as filename string
-            formData.append(`project_photo_${index}`, project.photo);
-          }
-        });
-      } else if (Array.isArray(value)) {
-        // For array fields like 'skills', convert to JSON string
-        formData.append(key, JSON.stringify(value));
-      } else {
-        // For simple fields like 'aboutMe', 'bio', etc.
-        formData.append(key, value as string);
-      }
-    });
-  
-    
 
     try {
       const response = await fetch('/pages/api/upload', {
         method: 'POST',
-        body: formData,
+        body: fileData,
       })
 
       if (!response.ok) {
@@ -171,6 +144,20 @@ export function useFormSubmit() {
   }
 
 
+  // Utility function to convert Base64 to Blob
+  const dataURLtoBlob = (dataURL: string) => {
+    const arr = dataURL.split(',');
+    const mime = arr[0].match(/:(.*?);/)[1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new Blob([u8arr], { type: mime });
+  };
+
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
@@ -179,16 +166,38 @@ export function useFormSubmit() {
 
     try {
 
+      const photo = localStorage.getItem('photo')
+      const resume = localStorage.getItem('resume')
+      const project_0 = localStorage.getItem('projects_0')
+      const project_1 = localStorage.getItem('projects_1')
+      const project_2 = localStorage.getItem('projects_2')
+
+      if (!photo || !resume || !project_0 || !project_1 || !project_2) {
+        setStepStatus("Error: File Contents are empty in local storage")
+        setIsLoading(false)
+        return
+      }
+
+      const formData = new FormData()
+      // Convert Base64 to Blob and append to FormData
+      formData.append('photo', dataURLtoBlob(photo));
+      formData.append('resume', dataURLtoBlob(resume));
+      formData.append('project_0', dataURLtoBlob(project_0));
+      formData.append('project_1', dataURLtoBlob(project_1));
+      formData.append('project_2', dataURLtoBlob(project_2));
+
 
       if (localStorageFormData) {
         parsedFormData = JSON.parse(localStorageFormData);
       } else {
-        setStepStatus("Error: No localStorageFormData found")
+        setStepStatus("Error: No local storage formdata found")
         setIsLoading(false)
         return
       }
-        setStepStatus("Uploading to cloudinary")
-      const uploadToCloudinary = await handleFilesToCloudinary(parsedFormData)
+
+
+      setStepStatus("Uploading to cloudinary...")
+      const uploadToCloudinary = await handleFilesToCloudinary(formData)
 
       if (!uploadToCloudinary || !uploadToCloudinary.data) {
         setStepStatus("Failed to upload files to cloudinary")
@@ -198,25 +207,22 @@ export function useFormSubmit() {
 
       const updatedFormData = replaceFileWithLinks(parsedFormData as FormDataProps, uploadToCloudinary);
 
-     setRandomId(null)
+      setRandomId(null)
 
       const id = createRandomId(16)
 
-      localStorage.setItem("randomId",id.toLowerCase())
+      localStorage.setItem("randomId", id.toLowerCase())
 
-      setRandomId(id)
-      //setRandomId(id.toLowerCase())
+      //setRandomId(id)
+      setRandomId(id.toLowerCase())
 
 
-      setStepStatus("Adding Data")
+      setStepStatus("Adding data...")
 
       updatedFormData.intiatingUser = "akash" //hard coded for now
       updatedFormData.randomId = id.toLowerCase()
 
-
-        await saveDataToServer(updatedFormData)
-        
-
+      await saveDataToServer(updatedFormData)
 
       const response = await fetch('/pages/api/portfolio', {
         method: 'POST',

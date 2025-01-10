@@ -30,66 +30,25 @@ async function uploadToCloudinary(file: File): Promise<{ secure_url: string; pub
 }
 
 
-function convertToFile(photoName: string): File {
-
-
-  // Extract the file extension
-  const fileExtension = photoName.split('.').pop()?.toLowerCase();
-
-  // Determine the MIME type based on the file extension
-  let mimeType: string;
-  switch (fileExtension) {
-    case 'jpg':
-    case 'jpeg':
-      mimeType = 'image/jpeg';
-      break;
-    case 'png':
-      mimeType = 'image/png';
-      break;
-    case 'pdf':
-      mimeType = 'application/pdf';
-      break;
-    default:
-      throw new Error('Unsupported file type');
-  }
-
-  // Create a Blob with the MIME type (replace with actual file data if needed)
-  const photoBlob = new Blob([photoName], { type: mimeType });
-
-  // Use the File constructor to create the File object
-  const file = new File([photoBlob], photoName, { type: mimeType });
-
-  return file;
-}
-
-
-
-
-
 
 export async function POST(request: NextRequest) {
   try {
     const data = await request.formData();
+    console.log(data);
 
+    const rawPhoto = data.get('photo') as File;
+    const rawResume = data.get('resume') as File;
 
-    
-
-    // Process files
-    const rawPhoto = data.get('photo') as string
-    const rawResume = data.get('resume') as string
-    const photo = convertToFile(rawPhoto)
-    const resume = convertToFile(rawResume)
-
-
-
-    if (!photo || !resume) {
-      console.error('Missing photo or resume:', photo, resume);
+    // Check if photo and resume exist in the form data
+    if (!rawPhoto || !rawResume) {
+      console.error('Missing photo or resume:', rawPhoto, rawResume);
       return NextResponse.json({ error: 'Missing required files' }, { status: 400 });
     }
 
+    // Upload photo and resume directly to Cloudinary
     const uploadResults = {
-      mainPhoto: await uploadToCloudinary(photo),
-      resume: await uploadToCloudinary(resume),
+      mainPhoto: await uploadToCloudinary(rawPhoto),
+      resume: await uploadToCloudinary(rawResume),
       projects: []
     };
 
@@ -98,26 +57,16 @@ export async function POST(request: NextRequest) {
     let index = 0;
 
     while (data.has(`project_${index}`)) {
-      const rawProjectFile = data.get(`project_${index}`) 
-
-
-      if(typeof rawProjectFile == 'string'){
-        const parsedProjectFile  = JSON.parse(rawProjectFile) ;
-        const projectFile = convertToFile(parsedProjectFile.photo)
-
-        if (projectFile) {
-          const uploadedProjectPhoto = await uploadToCloudinary(projectFile);
-          projects.push({
-            photo: uploadedProjectPhoto.secure_url,
-            public_id: uploadedProjectPhoto.public_id,
-            metadata: JSON.parse(data.get(`project_metadata_${index}`) as string || '{}')
-          });
-        }
+      const rawProjectFile = data.get(`project_${index}`) as File;
+      if (rawProjectFile) {
+        console.log("rawProjectFile", rawProjectFile);
+        const uploadedProjectPhoto = await uploadToCloudinary(rawProjectFile);
+        projects.push({
+          photo: uploadedProjectPhoto.secure_url,
+          public_id: uploadedProjectPhoto.public_id,
+          metadata: JSON.parse(data.get(`project_metadata_${index}`) as string || '{}')
+        });
       }
-
-
-     
-
       index++;
     }
 
@@ -140,12 +89,10 @@ export async function POST(request: NextRequest) {
       projects: projects
     };
 
-    // Return processed data
     return NextResponse.json({
       message: 'Form data processed successfully',
       data: finalData
     });
-
   } catch (error) {
     console.error('Upload error:', error);
     return NextResponse.json({ error: 'Upload failed', details: error }, { status: 500 });

@@ -4,14 +4,13 @@ import React, { useEffect, useRef, MutableRefObject } from "react";
 import { useSearchParams } from "next/navigation";
 import { useFormContext } from "../context/formContext";
 
-
 // Create a custom hook to manage the shared ref
 export function useSharedIframeRef(): MutableRefObject<HTMLIFrameElement | null> {
   const ref = useRef<HTMLIFrameElement | null>(null);
   return ref;
 }
 
-let getIframeRef
+let getIframeRef: any
 
 export function useIframeRef() {
   return getIframeRef
@@ -62,10 +61,10 @@ const skillsData = [
   { id: "MY SQL", url: "https://res.cloudinary.com/djpbqetkj/image/upload/v1735027209/pngwing.com_22_oox22y.png" },
   { id: "POSTGRESQL", url: "https://res.cloudinary.com/djpbqetkj/image/upload/v1735027299/pngwing.com_23_clvtc7.png" },
   { id: "CASSANDRA DB", url: "https://res.cloudinary.com/djpbqetkj/image/upload/v1735027381/pngwing.com_24_botbgy.png" },
-  { id: "NEXT.JS", url: "https://res.cloudinary.com/djpbqetkj/image/upload/v1736413319/pngwing.com_34_bafoye.png" },
-  { id: "TYPESCRIPT", url: "https://res.cloudinary.com/djpbqetkj/image/upload/v1734948045/pnghut_angularjs-typescript-javascript-vue-js-library-brand_ifepkv.png" },
-  { id: "C", url: "https://res.cloudinary.com/djpbqetkj/image/upload/v1736413372/pngwing.com_35_hftpib.png" },
-  { id: "C++", url: "https://res.cloudinary.com/djpbqetkj/image/upload/v1736413420/pngwing.com_36_z4z6ur.png" }
+  { id:"NEXT.JS" ,url: "https://res.cloudinary.com/djpbqetkj/image/upload/v1736413319/pngwing.com_34_bafoye.png" },
+  { id: "TYPESCRIPT", url: "https://res.cloudinary.com/djpbqetkj/image/upload/v1734948045/pnghut_angularjs-typescript-javascript-vue-js-library-brand_ifepkv.png"},
+  { id: "C", url: "https://res.cloudinary.com/djpbqetkj/image/upload/v1736413372/pngwing.com_35_hftpib.png"},
+  { id: "C++",url: "https://res.cloudinary.com/djpbqetkj/image/upload/v1736413420/pngwing.com_36_z4z6ur.png"}
 ]
 
 interface RealTimeHtmlProps {
@@ -76,7 +75,7 @@ export function RealTimeHtml({ device }: RealTimeHtmlProps) {
   const searchParams = useSearchParams();
   const { formData, selectedSkills } = useFormContext();
   const iframeRef = useSharedIframeRef();
-      
+
   useEffect(() => {
     getIframeRef = iframeRef
   }, [iframeRef])
@@ -88,7 +87,7 @@ export function RealTimeHtml({ device }: RealTimeHtmlProps) {
     }
   }, [searchParams]);
 
-
+  
 
   useEffect(() => {
     const updateIframeContent = () => {
@@ -98,17 +97,58 @@ export function RealTimeHtml({ device }: RealTimeHtmlProps) {
       const iframeDocument = iframe.contentWindow.document;
 
       const bio = iframeDocument.getElementById("info-para")?.textContent;
+      iframeDocument.getElementById("about-me")?.textContent;
 
-  
+      (iframeDocument.getElementById(
+        "about-me-image"
+      ) as HTMLImageElement)?.src;
+       (iframeDocument.getElementById(
+        "project-one-image"
+      ) as HTMLImageElement)?.src;
+      (iframeDocument.getElementById(
+        "project-two-image"
+      ) as HTMLImageElement)?.src;
+       (iframeDocument.getElementById(
+        "project-three-image"
+      ) as HTMLImageElement)?.src;
 
       const projectOneTitle = iframeDocument.getElementById("project-one-title");
-    
+      iframeDocument.getElementById("project-two-title")?.textContent;
+      iframeDocument.getElementById("project-three-title")?.textContent;
 
-     
+      iframeDocument.getElementById(
+        "project-one-description"
+      )?.textContent;
+      iframeDocument.getElementById(
+        "project-two-description"
+      )?.textContent;
+      iframeDocument.getElementById(
+        "project-three-description"
+      )?.textContent;
 
-  
+      (iframeDocument.getElementById(
+        "project-one-githubRepo"
+      ) as HTMLAnchorElement)?.href;
+      (iframeDocument.getElementById(
+        "project-two-githubRepo"
+      ) as HTMLAnchorElement)?.href;
+       (iframeDocument.getElementById(
+        "project-three-githubRepo"
+      ) as HTMLAnchorElement)?.href;
 
-      
+    (iframeDocument.getElementById(
+        "project-one-liveLink"
+      ) as HTMLAnchorElement)?.href;
+    (iframeDocument.getElementById(
+        "project-two-liveLink"
+      ) as HTMLAnchorElement)?.href;
+    (iframeDocument.getElementById(
+        "project-three-liveLink"
+      ) as HTMLAnchorElement)?.href;
+
+       (iframeDocument.getElementById("linkedin-url") as HTMLAnchorElement)
+        ?.href;
+       (iframeDocument.getElementById("github-url") as HTMLAnchorElement)?.href;
       const email = (iframeDocument.getElementById("user-email") as HTMLAnchorElement)?.href;
       let resume = (iframeDocument.getElementById("resume") as HTMLAnchorElement)
 
@@ -184,6 +224,19 @@ export function RealTimeHtml({ device }: RealTimeHtmlProps) {
         }
 
 
+
+        /* 
+
+
+        
+
+  
+        
+        */
+
+
+
+
         if (formData.photo) {
           const imageElement = iframeDocument.getElementById("about-me-image") as HTMLImageElement;
           if (imageElement) {
@@ -196,7 +249,9 @@ export function RealTimeHtml({ device }: RealTimeHtmlProps) {
           } else {
             console.warn("Element with ID 'about-me-image' not found.");
           }
-        } 
+        } else {
+          console.warn("No photo data found in formData.");
+        }
 
         if (formData.projects) {
           if (formData.projects[0]?.photo) {
@@ -353,7 +408,7 @@ export function RealTimeHtml({ device }: RealTimeHtmlProps) {
       //  updateImageSrc("about-me-image", formData.aboutMeImage);
 
       // Update projects
-      formData.projects?.forEach((project, index) => {
+      formData.projects?.forEach((project: any, index: any) => {
         const num = index + 1;
         //    updateTextContent(`project-${num}-title`, project.title);
         //    updateTextContent(`project-${num}-description`, project.description);
@@ -363,7 +418,7 @@ export function RealTimeHtml({ device }: RealTimeHtmlProps) {
       });
 
       // Update social links
-      formData.socialLinks?.forEach((link, index) => {
+      formData.socialLinks?.forEach((link: any, index: any) => {
         if (index === 0) updateAnchorHref("linkedin-url", link.url);
         if (index === 1) updateAnchorHref("github-url", link.url);
       });
@@ -387,28 +442,22 @@ export function RealTimeHtml({ device }: RealTimeHtmlProps) {
     return () => {
       window.removeEventListener("message", handleMessage);
     };
-  }, [formData, iframeRef, selectedSkills]);
+  }, [formData]);
 
   return (
 
-    <>
-        <div className={`w-full h-full bg-gray-100 rounded-lg ${device === 'laptop' ? 'max-w-sm mx-auto' : ''}`}>
-          <iframe
-            ref={iframeRef}
-            id="template"
-            src={`/index.html?${searchParams.toString()}`}
-            className={`w-full border-none ${device === 'mobile' ? 'h-[800px]' : 'h-full'}`}
-            title={`${device} preview`}
-          />
-        </div>
-    </>
+    <div className={`w-full h-full bg-gray-100 rounded-lg ${device === 'laptop' ? 'max-w-sm mx-auto' : ''}`}>
+    <iframe
+      ref={iframeRef}
+      id="template"
+      src={`/index.html?${searchParams.toString()}`}
+      className={`w-full border-none ${device === 'mobile' ? 'h-[800px]' : 'h-full'}`}
+      title={`${device} preview`}
+    />
+  </div>
 
 
-
-
-
-
-
+   
   );
 }
 

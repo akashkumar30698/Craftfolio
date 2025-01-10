@@ -270,7 +270,6 @@ window.embeddedData = getQueryParams();
 // Log for debugging
 const username = window.embeddedData.username;
 
-
 //// Function to extract randomId from the current URL
 async function extractRandomIdFromUrl() {
   const currentUrl = window.location.href;
@@ -278,7 +277,6 @@ async function extractRandomIdFromUrl() {
   const match = currentUrl.match(regex);
   return match ? match[1] : null;  // Return extracted randomId or null if not found
 }
-
 
 async function loadRandomId() {
   try {
@@ -292,17 +290,16 @@ async function loadRandomId() {
       return false;
     }
   } catch (error) {
-    console.error('Error loading randomId:', error);
+    console.log('Error loading randomId:', error);
     return false;  // Return false if an error occurs
   }
 }
-
 
 // Function to fetch data
 async function fetchData(randomId) {
   if (randomId) {  // Only fetch data if randomId is not null
     try {
-      const response = await fetch(`http://localhost:3000/pages/api/storeOnServer?randomId=${randomId}`);
+      const response = await fetch(`https://portfolio-two-roan-90.vercel.app/pages/api/storeOnServer?randomId=${randomId}`);
       if (!response.ok) {
         throw new Error('Network response was not ok');
         return null
@@ -325,8 +322,6 @@ async function main() {
 
   const envRandomId = await loadRandomId()
 
-
-
   if (randomId || envRandomId) {
     // Fetch data using the extracted randomId
     const data = await fetchData(envRandomId);  // Assuming fetchData is returning a promise that resolves to the user data
@@ -334,11 +329,8 @@ async function main() {
 
     if (userData) {
 
-    
-
       const enhancedData = await addSkillLogos(userData, skillsData);
-      
-
+  
       document.getElementById('info-para').textContent = userData.bio
       document.getElementById('about-me').textContent = userData.aboutMe
 
@@ -453,8 +445,6 @@ async function main() {
 main();
 
 
-
-
 async function addSkillLogos(userData, skillsData) {
   // Ensure userData.skills is defined and is an array
   if (!Array.isArray(userData.skills)) {
@@ -476,8 +466,6 @@ async function addSkillLogos(userData, skillsData) {
   return enhancedUserData;
 }
 
-
-
 // Function to extract user data for a specific initiatingUser
 function extractUserData(data, username) {
   return data.find(user => user.intiatingUser.toLowerCase() === username.toLowerCase());
@@ -487,11 +475,17 @@ function extractUserData(data, username) {
 // Notify parent that the iframe is ready
 window.parent.postMessage('iframeReady', '*');
 
+console.log("hello")
+
 // Listen for messages from parent
 window.addEventListener('message', function (event) {
   if (event.data && event.data.type === 'updateTitle') {
     const bio = document.getElementById('info-para').textContent
     const aboutMe = document.getElementById('about-me').textContent
+
+    console.log("bio",bio)
+    console.log("Received event:", event);
+
 
     const aboutMeImage = document.getElementById('about-me-image').src
     const projectOneImage = document.getElementById('project-one-image').src
@@ -537,14 +531,12 @@ window.addEventListener('message', function (event) {
 
    
 
-    if (name) {
-      name = event.data.content
-    }
+    /*
 
     if (aboutMe) {
       aboutMe = event.data.content
     }
-
+*/
     if (profession) {
       profession = event.data.content
     }

@@ -41,8 +41,6 @@ interface SocialLink {
     url: string
 }
 
-
-
 const predefinedSkills = [
     { id: "html", label: "HTML" },
     { id: "css", label: "CSS" },
@@ -93,10 +91,6 @@ const predefinedSkills = [
     { id: "electron.js", label: "ELECTRON.JS" }
 ]
 
-
-
-
-
 const commonPlatforms = ['LinkedIn', 'Github']
 
 export function DashboardSidebar() {
@@ -112,11 +106,6 @@ export function DashboardSidebar() {
     )
 
     const iframeRef = useIframeRef()
-
-
-    
-
-
 
     useEffect(() => {
         updateFormData("socialLinks", socialLinks)
@@ -200,17 +189,17 @@ export function DashboardSidebar() {
                                         <AccordionContent>
                                             <div className="flex flex-col">
                                                 <Label htmlFor="name" className='mb-3'>Your Full Name</Label>
-                                                <Input type='text' id="name" className='mb-3' value={formData.name || ''} onChange={(e) => updateFormData('name', e.target.value)} placeholder="Akash Kumar" required />
+                                                <Input type='text' id="name" className='mb-3' value={formData.name || '' } onChange={(e) => updateFormData('name', e.target.value)} placeholder="Akash Kumar" required />
                                             </div>
 
                                             <div className="flex flex-col">
-                                                <Label htmlFor="name" className='mb-3'>Your Profession</Label>
+                                                <Label htmlFor="profession" className='mb-3'>Your Profession</Label>
                                                 <Input type='text' id="profession" className='mb-3' value={formData.profession || ''} onChange={(e) => updateFormData('profession', e.target.value)} placeholder="Software Developer" required />
                                             </div>
 
                                             <div className="flex flex-col ">
                                                 <Label htmlFor="bio" className='mb-3'>Your Bio</Label>
-                                                <Textarea />
+                                                <Textarea className='mb-3' value={formData.bio || ''} onChange={(e) => updateFormData("bio", e.target.value)} placeholder="Type Here" required />
                                             </div>
                                         </AccordionContent>
                                     </AccordionItem>

@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
                 code: code,
                 client_id: process.env.VERCEL_CLIENT_ID || "",
                 client_secret: process.env.VERCEL_CLIENT_SECRET || "",
-                redirect_uri: `http://localhost:3000/integrations/vercel/oauth2/callback`, // Replace with your actual domain
+                redirect_uri: `https://portfolio-two-roan-90.vercel.app/integrations/vercel/oauth2/callback`, // Replace with your actual domain
             }).toString(),
             {
                 headers: {
@@ -41,8 +41,8 @@ export async function POST(req: NextRequest) {
         // Create a response and set the cookie
         const nextResponse = NextResponse.json(response.data);
         nextResponse.cookies.set("access_token", access_token, {
-            httpOnly: false,
-            secure: false,  
+            httpOnly: true,
+            secure: true,  
             sameSite: "strict", // Prevents cross-site requests
             maxAge: 3600, // Expiry in seconds
         });

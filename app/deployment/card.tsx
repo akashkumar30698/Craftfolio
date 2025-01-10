@@ -49,35 +49,45 @@ function isEmpty(obj: object | string): boolean {
   return Object.keys(obj).length === 0;
 }
 
+ // Function to convert files to Base64 and store them in localStorage
+ const storeFilesInLocalStorage = (formData) => {
+  const fileKeys = ['photo', 'resume'];
 
-
-async function storeFilesInCache(formData) {
-  if ('caches' in window) {
-    const cache = await caches.open('file-cache');
-    
-    const storeFile = async (file: File, prefix: string) => {
-      const response = new Response(file);
-      await cache.put(`${prefix}_${file.name}`, response);
-    };
-
-    for (const [key, value] of Object.entries(formData)) {
-      if (value instanceof File) {
-        await storeFile(value, key);
-      } else if (Array.isArray(value)) {
-        for (let i = 0; i < value.length; i++) {
-          const item = value[i];
-          if (item && typeof item === 'object') {
-            for (const [subKey, subValue] of Object.entries(item)) {
-              if (subValue instanceof File) {
-                await storeFile(subValue, `${key}_${i}_${subKey}`);
-              }
-            }
-          }
-        }
-      }
+  // Handle main photo and resume files
+  fileKeys.forEach((fileKey) => {
+    const file = formData[fileKey];
+    if (file) {
+      convertFileToBase64AndStore(file, fileKey);
     }
-  }
-}
+  });
+
+  // Handle project photos
+  formData.projects.forEach((project, index) => {
+    if (project.photo) {
+      convertFileToBase64AndStore(project.photo, `projects_${index}`);
+    }
+  });
+};
+
+// Convert file to Base64 and store it in localStorage
+const convertFileToBase64AndStore = (file: File, key) => {
+  const reader = new FileReader();
+  reader.onload = function (event) {
+    const base64String = event.target?.result as string;
+    localStorage.setItem(key, base64String); // Store base64 string in localStorage
+    console.log(`Stored ${key} in localStorage:`, base64String.slice(0, 50), '...'); // Log first 50 chars for debugging
+  };
+
+  reader.onerror = function (error) {
+    console.error(`Error reading ${key}:`, error);
+  };
+
+  reader.readAsDataURL(file); // Convert file to Base64 and trigger the reader
+};
+
+
+
+
 
 
 
@@ -118,7 +128,9 @@ export function EnhancedDeploymentStepsCard() {
         }
       }
       
-      storeFilesInCache(formData);
+   //   storeFilesInCache(formData);
+
+      storeFilesInLocalStorage(formData)
       localStorage.setItem("formData", JSON.stringify(formDataWithoutFiles));
     }
   },[formData])
@@ -270,6 +282,14 @@ export function EnhancedDeploymentStepsCard() {
               localStorage.removeItem("deployId")
               localStorage.removeItem("formData")
               localStorage.removeItem("randomId")
+
+              //////////////////////////////////////
+              localStorage.removeItem("resume")
+              localStorage.removeItem("photo")
+              localStorage.removeItem("project_0")
+              localStorage.removeItem("project_1")
+              localStorage.removeItem("project_2")
+
               Cookies.remove("latestCSRFToken")
               Cookies.remove("github_access_token")
               Cookies.remove("vercel_access_token")
