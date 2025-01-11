@@ -1,15 +1,22 @@
 import { NextResponse } from 'next/server';
 
-export async function GET(request) {
-    try{
-        const { tokenName } = await request.json();
-        if(!tokenName){
-            return NextResponse.json({ error: "Token name not found" },{status: 404});
-        }
-        const authToken = request.cookies.get(tokenName);
-        return NextResponse.json({ data: authToken });
-    }catch(err){
-        console.log("Some error occured ",err)
-        return NextResponse.json({ error: "Some error occured"},{status: 500});
+export async function POST(request) {
+  try {
+    const { tokenName } = await request.json();
+
+    if (!tokenName) {
+      return NextResponse.json({ error: "Token name is required" }, { status: 400 });
     }
+
+    const authToken = request.cookies.get(tokenName);
+
+    if (!authToken) {
+      return NextResponse.json({ error: "Token not found" }, { status: 404 });
+    }
+
+    return NextResponse.json({ data: authToken });
+  } catch (err) {
+    console.error("Error occurred:", err);
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+  }
 }
