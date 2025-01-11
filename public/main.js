@@ -475,7 +475,6 @@ function extractUserData(data, username) {
 // Notify parent that the iframe is ready
 window.parent.postMessage('iframeReady', '*');
 
-console.log("hello")
 
 // Listen for messages from parent
 window.addEventListener('message', function (event) {
@@ -483,7 +482,6 @@ window.addEventListener('message', function (event) {
     const bio = document.getElementById('info-para').textContent
     const aboutMe = document.getElementById('about-me').textContent
 
-    console.log("bio",bio)
     console.log("Received event:", event);
 
 

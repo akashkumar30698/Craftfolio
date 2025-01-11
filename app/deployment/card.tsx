@@ -293,7 +293,6 @@ export function EnhancedDeploymentStepsCard() {
               Cookies.remove("latestCSRFToken")
               Cookies.remove("github_access_token")
               Cookies.remove("vercel_access_token")
-              console.log(githubAccessToken)
 
               await removeCacheStorage()
 

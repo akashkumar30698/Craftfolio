@@ -58,7 +58,7 @@ export default function FontStylerAccordion() {
                 element.style.fontFamily = currentFont;
                 updateFormData("font", currentFont);
             } catch (err) {
-                console.log("Error applying font:", err);
+                //console.log("Error applying font:", err);
                 setError(err instanceof Error ? err.message : "An unknown error occurred");
             } finally {
                 setIsLoading(false);

@@ -10,7 +10,7 @@ export async function getTokenFromServer(tokenName) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ tokenName }), // Pass the token name in the body
+        body: JSON.stringify({ tokenName: tokenName }), // Pass the token name in the body
       });
   
       if (!response.ok) {

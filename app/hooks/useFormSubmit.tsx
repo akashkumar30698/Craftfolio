@@ -64,7 +64,6 @@ export function useFormSubmit() {
 
   const handleFilesToCloudinary = async (fileData): Promise<CloudinaryResponse | null> => {
 
-    console.log("file hi hihihi :", fileData)
 
     // Check if FormData is empty
     if (fileData && fileData.has('photo') && fileData.has('resume') && fileData.has('project_0') && fileData.has('project_1') && fileData.has('project_2')) {

@@ -18,8 +18,8 @@ export async function createRepo(setIsLoading: React.Dispatch<React.SetStateActi
         const urlParams = new URLSearchParams(window.location.search);
 
         // Get the 'github_access_token' parameter
-        const githubTokenSecond = urlParams.get('github_access_token');
-        const githubToken = await getTokenFromServer('github_access_token') || githubTokenSecond
+       // const githubTokenSecond = urlParams.get('github_access_token');
+        const githubToken = await getTokenFromServer('github_access_token') 
       //  const githubToken = getCookie("github_access_token") || Cookies.get("github_access_token") || githubTokenSecond
 
         if (!githubToken) {
@@ -27,6 +27,7 @@ export async function createRepo(setIsLoading: React.Dispatch<React.SetStateActi
             setStepStatus("No GitHub access token found")
             return null
         }
+
 
         const response = await axios.post(
             "https://api.github.com/user/repos",
@@ -37,7 +38,7 @@ export async function createRepo(setIsLoading: React.Dispatch<React.SetStateActi
             },
             {
                 headers: {
-                    Authorization: `Bearer ${githubToken}`,
+                    Authorization: `Bearer ${githubToken.value}`,
                     "Content-Type": "application/json",
                 },
             }
@@ -67,8 +68,8 @@ export async function uploadFiles(repoFullName: string, setIsLoading: React.Disp
     console.log(randomId,setRandomId)
 
     // Get the 'github_access_token' parameter
-    const githubTokenSecond = urlParams.get('github_access_token');
-    const githubToken = await getTokenFromServer('github_access_token') || githubTokenSecond
+  //  const githubTokenSecond = urlParams.get('github_access_token');
+    const githubToken = await getTokenFromServer('github_access_token')
    // const githubToken = getCookie("github_access_token") || Cookies.get("github_access_token") || githubTokenSecond
     if (!githubToken) {
         console.error("No GitHub access token found. Please authenticate with GitHub first.")
@@ -97,7 +98,7 @@ export async function uploadFiles(repoFullName: string, setIsLoading: React.Disp
 
             const base64Content = Buffer.from(content).toString("base64")
             const url = `https://api.github.com/repos/${repoFullName}/contents/${file.name}`
-            const headers = { Authorization: `Bearer ${githubToken}` }
+            const headers = { Authorization: `Bearer ${githubToken.value}` }
             const body = {
                 message: `Add ${file.name}`,
                 content: base64Content,
@@ -122,7 +123,7 @@ export async function uploadFiles(repoFullName: string, setIsLoading: React.Disp
         const randomIdBase64Content = Buffer.from(randomIdJsonContent).toString('base64');
         const randomIdUrl = `https://api.github.com/repos/${repoFullName}/contents/randomId.json`;
 
-        const headers = { Authorization: `Bearer ${githubToken}` };
+        const headers = { Authorization: `Bearer ${githubToken.value}` };
         const body = {
             message: 'Add randomId.json file with random ID',
             content: randomIdBase64Content,
@@ -158,7 +159,6 @@ async function fetchFileContent(filePath: string): Promise<string> {
         return ""
     }
 }
-
 
 
 export const deployProject = async (setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
@@ -200,7 +200,7 @@ export const deployProject = async (setIsLoading: React.Dispatch<React.SetStateA
             },
             {
                 headers: {
-                    Authorization: `Bearer ${localStorageVercelToken}`,
+                    Authorization: `Bearer ${localStorageVercelToken.value}`,
                     "Content-Type": "application/json",
                 },
             }
@@ -270,7 +270,7 @@ export async function deployToVercel(setIsLoading: React.Dispatch<React.SetState
             },
             {
                 headers: {
-                    Authorization: `Bearer ${vercelToken}`,
+                    Authorization: `Bearer ${vercelToken.value}`,
                     "Content-Type": "application/json",
                 },
             }

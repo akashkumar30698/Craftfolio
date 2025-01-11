@@ -59,7 +59,6 @@ export async function POST(request: NextRequest) {
     while (data.has(`project_${index}`)) {
       const rawProjectFile = data.get(`project_${index}`) as File;
       if (rawProjectFile) {
-        console.log("rawProjectFile", rawProjectFile);
         const uploadedProjectPhoto = await uploadToCloudinary(rawProjectFile);
         projects.push({
           photo: uploadedProjectPhoto.secure_url,

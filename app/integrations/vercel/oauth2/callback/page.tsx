@@ -38,9 +38,8 @@ const CallbackPage: React.FC = () => {
       // Validate the state parameter
     //  const latestCSRFToken = getCookie("latestCSRFToken") || Cookies.get('latestCSRFToken');
       const latestCSRFToken = await getTokenFromServer('latestCSRFToken')
-      console.log("state: ch ",state,"latestCSRFToken :",latestCSRFToken)
-      if (state !== latestCSRFToken) {
-        console.error("Invalid CSRF token.",state,latestCSRFToken,code);
+      if (state !== latestCSRFToken.value) {
+        console.error("Invalid CSRF token.");
         setStepStatus("Invalid CSRF token")
         setIsLoading(false)
         localStorage.removeItem("latestCSRFToken");
@@ -61,7 +60,7 @@ const CallbackPage: React.FC = () => {
 
           const cookieSetResult = await setTokenOnServer(res.data.access_token,"vercel_access_token")
 
-        const githubToken = Cookies.get("github_access_token")
+        const githubToken = await getTokenFromServer("github_access_token")
 
 
         if (!githubToken || !cookieSetResult) {
@@ -73,7 +72,7 @@ const CallbackPage: React.FC = () => {
 
         setIsLoading(false)
         // Redirect to the home page
-        router.push("/deployment?github_access_token=" + githubToken + "&deployment_process=" + 3);
+        router.push("/deployment?github_access_token=" + githubToken.value + "&deployment_process=" + 3);
         setStepStatus(null)
 
       } catch (error) {

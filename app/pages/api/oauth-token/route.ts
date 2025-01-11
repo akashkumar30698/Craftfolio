@@ -41,8 +41,8 @@ export async function POST(req: NextRequest) {
         // Create a response and set the cookie
         const nextResponse = NextResponse.json(response.data);
         nextResponse.cookies.set("access_token", access_token, {
-            httpOnly: true,
-            secure: true,  
+           httpOnly: true,
+           secure: true,  
             sameSite: "strict", // Prevents cross-site requests
             maxAge: 3600, // Expiry in seconds
         });

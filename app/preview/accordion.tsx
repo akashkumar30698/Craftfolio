@@ -11,9 +11,9 @@ import {
     AccordionTrigger,
 } from "@/components/ui/accordion"
 import {
-    
+
     SidebarContent
-    
+
 } from "@/components/ui/sidebar"
 import { useFormContext } from "../context/formContext"
 import { Label } from "@/components/ui/label"
@@ -95,8 +95,8 @@ const predefinedSkills = [
 const commonPlatforms = ['LinkedIn', 'Github']
 
 export function DashboardSidebar() {
-    const [isCollapsed ] = React.useState(false)
-    const { formData, updateFormData,selectedSkills ,setSelectedSkills } = useFormContext()
+    const [isCollapsed] = React.useState(false)
+    const { formData, updateFormData, selectedSkills, setSelectedSkills } = useFormContext()
     const [projects, setProjects] = useState<ProjectData[]>([
         { id: '1', title: '', description: '', photo: null, repoLink: '', liveLink: '' },
         { id: '2', title: '', description: '', photo: null, repoLink: '', liveLink: '' },
@@ -105,6 +105,34 @@ export function DashboardSidebar() {
     const [socialLinks, setSocialLinks] = useState<SocialLink[]>(
         commonPlatforms.map(platform => ({ id: platform.toLowerCase(), platform, url: '' }))
     )
+
+    const [blobUrls, setBlobUrls] = useState<Record<string, string>>({});
+
+    useEffect(() => {
+        // Cleanup existing blob URLs when the component unmounts
+        return () => {
+            Object.values(blobUrls).forEach((url) => URL.revokeObjectURL(url));
+        };
+    }, [blobUrls]);
+
+    const handlePhotoPreview = (projectId: string, photo: File | null) => {
+        // Revoke existing blob URL for the specific project
+        if (blobUrls[projectId]) {
+            URL.revokeObjectURL(blobUrls[projectId]);
+        }
+
+        // Generate a new blob URL and update the state
+        if (photo) {
+            const objectUrl = URL.createObjectURL(photo);
+            setBlobUrls((prev) => ({ ...prev, [projectId]: objectUrl }));
+        } else {
+            setBlobUrls((prev) => {
+                const updated = { ...prev };
+                delete updated[projectId];
+                return updated;
+            });
+        }
+    };
 
     const iframeRef = useIframeRef()
 
@@ -150,8 +178,8 @@ export function DashboardSidebar() {
             updateFormData("resume", file);
 
 
-          // Convert file to base64
-          const reader = new FileReader();
+            // Convert file to base64
+            const reader = new FileReader();
             reader.onload = (event) => {
                 const base64 = event.target?.result as string;
                 // Send file data to iframe
@@ -190,7 +218,7 @@ export function DashboardSidebar() {
                                         <AccordionContent>
                                             <div className="flex flex-col">
                                                 <Label htmlFor="name" className='mb-3'>Your Full Name</Label>
-                                                <Input type='text' id="name" className='mb-3' value={formData.name || '' } onChange={(e) => updateFormData('name', e.target.value)} placeholder="Akash Kumar" required />
+                                                <Input type='text' id="name" className='mb-3' value={formData.name || ''} onChange={(e) => updateFormData('name', e.target.value)} placeholder="Akash Kumar" required />
                                             </div>
 
                                             <div className="flex flex-col">
@@ -290,14 +318,18 @@ export function DashboardSidebar() {
                                                                         id={`photo-${project.id}`}
                                                                         name="photo"
                                                                         type="file"
-                                                                        onChange={(e) => handlePhotoChange(project.id, e)}
+                                                                        onChange={(e) => {
+                                                                            handlePhotoChange(project.id, e)
+                                                                            handlePhotoPreview(project.id, e.target.files ? e.target.files[0] : null)
+                                                                        }     
+                                                                        }
                                                                         accept="image/*"
                                                                         required
                                                                     />
-                                                                    {project.photo && (
+                                                                    {blobUrls[project.id] && (
                                                                         <div className="mt-2">
                                                                             <Image
-                                                                                src={URL.createObjectURL(project.photo)}
+                                                                                src={blobUrls[project.id]}
                                                                                 alt={`Project ${index + 1} preview`}
                                                                                 className="max-w-full h-auto rounded-md"
                                                                                 height={300}
@@ -372,8 +404,8 @@ export function DashboardSidebar() {
                                         <AccordionTrigger>Navbar Background Color</AccordionTrigger>
                                         <AccordionContent>
                                             <div>
-                                            <ColorPickerComp elementId='navbar' />
-                                            </div> 
+                                                <ColorPickerComp elementId='navbar' />
+                                            </div>
                                         </AccordionContent>
                                     </AccordionItem>
 
@@ -381,8 +413,8 @@ export function DashboardSidebar() {
                                         <AccordionTrigger>Project 1 Background Color</AccordionTrigger>
                                         <AccordionContent>
                                             <div>
-                                            <ColorPickerComp  elementId='project-box-1' />
-                                           </div>
+                                                <ColorPickerComp elementId='project-box-1' />
+                                            </div>
                                         </AccordionContent>
                                     </AccordionItem>
 
@@ -390,8 +422,8 @@ export function DashboardSidebar() {
                                         <AccordionTrigger>Project 2 Background Color</AccordionTrigger>
                                         <AccordionContent>
                                             <div>
-                                            <ColorPickerComp  elementId='project-box-2' />
-                                           </div>
+                                                <ColorPickerComp elementId='project-box-2' />
+                                            </div>
                                         </AccordionContent>
                                     </AccordionItem>
 
@@ -399,8 +431,8 @@ export function DashboardSidebar() {
                                         <AccordionTrigger>Project 3 Background Color</AccordionTrigger>
                                         <AccordionContent>
                                             <div>
-                                            <ColorPickerComp  elementId='project-box-3' />
-                                           </div>
+                                                <ColorPickerComp elementId='project-box-3' />
+                                            </div>
                                         </AccordionContent>
                                     </AccordionItem>
 
@@ -408,11 +440,11 @@ export function DashboardSidebar() {
                                         <AccordionTrigger>Body Background Color</AccordionTrigger>
                                         <AccordionContent>
                                             <div>
-                                            <ColorPickerComp  elementId='body-background-color' />
-                                           </div>
+                                                <ColorPickerComp elementId='body-background-color' />
+                                            </div>
                                         </AccordionContent>
                                     </AccordionItem>
-                                </Accordion> 
+                                </Accordion>
                             </div>
                         )}
                     </div>
