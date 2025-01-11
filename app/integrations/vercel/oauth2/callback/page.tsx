@@ -26,6 +26,7 @@ const CallbackPage: React.FC = () => {
       const queryPart = window.location.search; // Get the query string from the URL
       const hello =  queryPart.includes("?") ? queryPart.split("?")[1] : null;
 
+
       if (!queryPart) {
         console.error("No query string found in the URL.",hello);
         setStepStatus("No query string found in the URL")
@@ -37,8 +38,9 @@ const CallbackPage: React.FC = () => {
 
       // Validate the state parameter
       const latestCSRFToken = getCookie("latestCSRFToken");
+      console.log("state:",state,"latestCSRFToken :",latestCSRFToken)
       if (state !== latestCSRFToken) {
-        console.error("Invalid CSRF token.");
+        console.error("Invalid CSRF token.",state,latestCSRFToken,code);
         setStepStatus("Invalid CSRF token")
         setIsLoading(false)
         localStorage.removeItem("latestCSRFToken");
