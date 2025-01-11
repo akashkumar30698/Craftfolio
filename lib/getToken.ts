@@ -5,7 +5,7 @@ export async function getTokenFromServer(tokenName) {
         return false;
       }
   
-      const response = await fetch('/api/getCookie', {
+      const response = await fetch('/pages/api/getCookie', {
         method: 'POST', // Use POST to send the token name in the body
         headers: {
           'Content-Type': 'application/json',
