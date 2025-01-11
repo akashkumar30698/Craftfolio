@@ -290,6 +290,7 @@ export function EnhancedDeploymentStepsCard() {
               localStorage.removeItem("project_1")
               localStorage.removeItem("project_2")
 
+              console.log(githubAccessToken)
               Cookies.remove("latestCSRFToken")
               Cookies.remove("github_access_token")
               Cookies.remove("vercel_access_token")

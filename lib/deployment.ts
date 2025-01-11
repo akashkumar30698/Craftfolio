@@ -15,7 +15,7 @@ export async function createRepo(setIsLoading: React.Dispatch<React.SetStateActi
     try {
 
         // Extract the GitHub token from the URL query string
-        const urlParams = new URLSearchParams(window.location.search);
+      //  const urlParams = new URLSearchParams(window.location.search);
 
         // Get the 'github_access_token' parameter
        // const githubTokenSecond = urlParams.get('github_access_token');
@@ -64,7 +64,7 @@ export async function uploadFiles(repoFullName: string, setIsLoading: React.Disp
     setStepStatus: React.Dispatch<React.SetStateAction<string | null>>, setRandomId: React.Dispatch<React.SetStateAction<string | null>>, randomId: string | null): Promise<boolean> {
 
     // Extract the GitHub token from the URL query string
-    const urlParams = new URLSearchParams(window.location.search);
+   // const urlParams = new URLSearchParams(window.location.search);
     console.log(randomId,setRandomId)
 
     // Get the 'github_access_token' parameter

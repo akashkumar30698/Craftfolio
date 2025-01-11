@@ -7,7 +7,6 @@ import { useRouter } from "next/navigation";
 import { useContextApi } from "@/app/context/getContext";
 import { useFormContext } from "@/app/context/formContext";
 import { setTokenOnServer } from "@/lib/setToken";
-import Cookies from "js-cookie"
 import { getTokenFromServer } from "@/lib/getToken";
 
 
