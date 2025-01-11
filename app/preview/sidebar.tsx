@@ -38,9 +38,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
               <span className="text-lg"></span>
             </Link>
             <nav className="space-y-1">
-              
                  <DashboardSidebar />
-                
             </nav>
           </div>
           <div className="space-y-4">

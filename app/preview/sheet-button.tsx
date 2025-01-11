@@ -4,18 +4,33 @@
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet"
 import { DashboardSidebar } from "./accordion"
+import Link from "next/link"
+import { useAuth } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 
 
 export function SheetButton() {
+  const { isSignedIn } = useUser()
+  const { signOut } = useAuth()
+
+  const handleLogout = async () => {
+    if(isSignedIn){
+      await signOut();
+      // Redirect the user or show a confirmation message after logout
+      window.location.href = "/";
+    }
+  };
+
   return (
     <Sheet>
     <SheetTrigger asChild>
-      <Button className="showOnMobile"     variant="outline" size="icon">
+      <Button className="showOnMobile hello"  variant="outline" size="icon">
         <MenuIcon className="h-6 w-6" />
         <span className="sr-only">Toggle navigation</span>
       </Button>
     </SheetTrigger>
-    <SheetContent side="left" className="w-[29rem]">
+    <SheetContent side="left" className="w-full sm:w-[20rem] md:w-[25rem] lg:w-[29rem]"
+    >
       <div className="flex h-full flex-col justify-between py-6 px-4">
         <div className="space-y-6">
           <nav className="space-y-1">
@@ -23,8 +38,22 @@ export function SheetButton() {
           </nav>
         </div>
         <div className="space-y-4">
-          <Button variant="outline" size="sm" className="w-full">
-            Upgrade to Pro
+          <Button variant="outline" onClick={handleLogout} size="sm" className="w-full">
+            { 
+              isSignedIn? (
+              <>
+              <div>
+                Log out
+              </div>
+              </>
+             ) : (
+              <>
+              <Link href="/sign-in">
+                Login
+              </Link>
+              </>
+             )
+               }
           </Button>
           <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
             <GlobeIcon className="h-5 w-5" />

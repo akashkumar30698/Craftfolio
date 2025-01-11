@@ -388,7 +388,7 @@ export function RealTimeHtml({ device }: RealTimeHtmlProps) {
       ref={iframeRef}
       id="template"
       src={`/index.html?${searchParams.toString()}`}
-      className={`w-full border-none ${device === 'mobile' ? 'h-[800px]' : 'h-full'}`}
+      className="w-full h-full border-none"
       title={`${device} preview`}
     />
   </div>

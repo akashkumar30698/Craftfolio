@@ -300,6 +300,8 @@ export function DashboardSidebar() {
                                                                                 src={URL.createObjectURL(project.photo)}
                                                                                 alt={`Project ${index + 1} preview`}
                                                                                 className="max-w-full h-auto rounded-md"
+                                                                                height={300}
+                                                                                width={300}
                                                                             />
                                                                         </div>
                                                                     )}

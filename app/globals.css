@@ -52,7 +52,7 @@ html {
   margin-top: 5rem;
 }
 
-@media only screen and (min-width:  661px) {
+@media only screen and (min-width:  1018px) {
   
   .showOnMobile{
     display: none;

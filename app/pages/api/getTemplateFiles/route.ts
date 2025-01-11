@@ -1,63 +1,52 @@
 // pages/api/getTemplateFiles.ts
-import fs from 'fs';
+import fs from 'fs/promises'
 import path from 'path';
 import { NextRequest, NextResponse } from 'next/server';
 
-// Helper function to get all files in a folder recursively
-const getFilesRecursively = (directory: string, relativePath = '') => {
-  const files = fs.readdirSync(directory, { withFileTypes: true });
-  let fileList: { name: string; content: string }[] = [];
-
-  for (const file of files) {
-    const absolutePath = path.join(directory, file.name);
-    const currentRelativePath = path.join(relativePath, file.name);
-
-    if (file.isDirectory()) {
-      // If it's a directory, recurse into it
-      fileList = fileList.concat(getFilesRecursively(absolutePath, currentRelativePath));
+export async function readFileContent(filePath: string): Promise<string> {
+  try {
+    if (process.env.NODE_ENV === 'production') {
+      // In production, read from the `public` directory
+      const publicPath = path.join(process.cwd(), 'public', filePath)
+      return await fs.readFile(publicPath, 'utf-8')
     } else {
-      // If it's a file, read its content
-      const content = fs.readFileSync(absolutePath, 'utf8');
-      fileList.push({ name: currentRelativePath, content });
+      // In development, read from the specified path
+      return await fs.readFile(filePath, 'utf-8')
     }
+  } catch (error) {
+    console.error(`Error reading file: ${filePath}`, error)
+    throw new Error(`Unable to read file: ${filePath}`)
   }
-
-  return fileList;
-};
+}
 
 export async function GET(req: NextRequest) {
-  const url = req.url || '';
-  const parsedUrl = new URL(url);
-  const fileName = parsedUrl.searchParams.get('fileName');
+  const url = req.url || ''
+  const parsedUrl = new URL(url)
+  const fileName = parsedUrl.searchParams.get('fileName')
+
+  console.log(url, "fileName :", fileName)
 
   if (!fileName) {
-    return NextResponse.json({ error: 'File or folder name is required' }, { status: 400 });
+    return NextResponse.json({ error: 'File name is required' }, { status: 400 })
   }
 
   try {
-    const targetPath = path.join(process.cwd(), fileName);
+    let filePath: string
 
-    if (!fs.existsSync(targetPath)) {
-      return NextResponse.json({ error: 'File or folder not found' }, { status: 404 });
+    if (process.env.NODE_ENV === 'production') {
+      // In production, we'll look for files in the `public` directory
+      filePath = path.join('public', fileName)
+    } else {
+      // In development, use the full path
+      filePath = path.join(process.cwd(), fileName)
     }
 
-    const stats = fs.statSync(targetPath);
+    console.log('File PATH :', filePath)
 
-    if (stats.isFile()) {
-      // Handle single file
-      const content = fs.readFileSync(targetPath, 'utf8');
-      return NextResponse.json({ files: [{ name: fileName, content }] }, { status: 200 });
-    }
-
-    if (stats.isDirectory()) {
-      // Handle directory
-      const files = getFilesRecursively(targetPath);
-      return NextResponse.json({ files }, { status: 200 });
-    }
-
-    return NextResponse.json({ error: 'Invalid path type' }, { status: 400 });
+    const content = await readFileContent(filePath)
+    return NextResponse.json({ files: [{ name: fileName, content }] }, { status: 200 })
   } catch (error) {
-    console.error('Error reading file or folder:', error);
-    return NextResponse.json({ error: 'Error reading file or folder' }, { status: 500 });
+    console.error('Error reading file:', error)
+    return NextResponse.json({ error: 'Error reading file' }, { status: 500 })
   }
 }
