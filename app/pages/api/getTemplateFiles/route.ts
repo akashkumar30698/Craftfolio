@@ -17,7 +17,7 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    let filePath: string
+   // const filePath: string
 
     // In production, remove "/public" from the fileName if it contains "/public/index.html"
     // and check if the file is not a sensitive file
@@ -31,7 +31,7 @@ export async function GET(req: NextRequest) {
     // Determine the file path based on the environment (production or development)
    // if (process.env.NODE_ENV === 'production') {
       // In production, files are typically served from the `public` directory
-      filePath = path.join('public', sanitizedFileName);
+      const  filePath = path.join('public', sanitizedFileName);
       console.log("filePath :",filePath)
   //  } else {
       // In development, use the absolute path to the file from the project's root directory
