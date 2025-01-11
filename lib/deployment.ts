@@ -1,8 +1,6 @@
 import axios from 'axios'
 import { createRandomId } from './utils'
-import Cookies from "js-cookie"
-import { getCookie } from './getCookie'
-
+import { getTokenFromServer } from './getToken'
 
 
 let storeUrl = ""
@@ -21,7 +19,8 @@ export async function createRepo(setIsLoading: React.Dispatch<React.SetStateActi
 
         // Get the 'github_access_token' parameter
         const githubTokenSecond = urlParams.get('github_access_token');
-        const githubToken = getCookie("github_access_token") || Cookies.get("github_access_token") || githubTokenSecond
+        const githubToken = await getTokenFromServer('github_access_token') || githubTokenSecond
+      //  const githubToken = getCookie("github_access_token") || Cookies.get("github_access_token") || githubTokenSecond
 
         if (!githubToken) {
             setIsLoading(false)
@@ -69,7 +68,8 @@ export async function uploadFiles(repoFullName: string, setIsLoading: React.Disp
 
     // Get the 'github_access_token' parameter
     const githubTokenSecond = urlParams.get('github_access_token');
-    const githubToken = getCookie("github_access_token") || Cookies.get("github_access_token") || githubTokenSecond
+    const githubToken = await getTokenFromServer('github_access_token') || githubTokenSecond
+   // const githubToken = getCookie("github_access_token") || Cookies.get("github_access_token") || githubTokenSecond
     if (!githubToken) {
         console.error("No GitHub access token found. Please authenticate with GitHub first.")
         setIsLoading(false)
@@ -171,7 +171,8 @@ export const deployProject = async (setIsLoading: React.Dispatch<React.SetStateA
             return false;
         }
 
-        const localStorageVercelToken = Cookies.get("vercel_access_token");
+      //  const localStorageVercelToken = Cookies.get("vercel_access_token");
+      const localStorageVercelToken = await getTokenFromServer('vercel_access_token')
 
         if (!localStorageVercelToken) {
             console.error("No Vercel token found in local storage or Vercel token expired");
@@ -219,7 +220,8 @@ export const deployProject = async (setIsLoading: React.Dispatch<React.SetStateA
 
 export async function deployToVercel(setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
     setStepStatus: React.Dispatch<React.SetStateAction<string | null>>, setUrl: React.Dispatch<React.SetStateAction<string | null>>): Promise<boolean> {
-    const vercelToken = Cookies.get("vercel_access_token")
+   // const vercelToken = Cookies.get("vercel_access_token")
+   const vercelToken = await getTokenFromServer('vercel_access_token')
     const repoFullName = localStorage.getItem("repoInfo_fullName")
     const repoId = localStorage.getItem("repoInfo_id")
 

@@ -8,8 +8,7 @@ import { useContextApi } from "@/app/context/getContext";
 import { useFormContext } from "@/app/context/formContext";
 import { setTokenOnServer } from "@/lib/setToken";
 import Cookies from "js-cookie"
-import { getCookie } from "@/lib/getCookie";
-
+import { getTokenFromServer } from "@/lib/getToken";
 
 
 const CallbackPage: React.FC = () => {
@@ -37,8 +36,9 @@ const CallbackPage: React.FC = () => {
       const { code, state } = queryString.parse(queryPart);
 
       // Validate the state parameter
-      const latestCSRFToken = getCookie("latestCSRFToken");
-      console.log("state:",state,"latestCSRFToken :",latestCSRFToken)
+    //  const latestCSRFToken = getCookie("latestCSRFToken") || Cookies.get('latestCSRFToken');
+      const latestCSRFToken = await getTokenFromServer('latestCSRFToken')
+      console.log("state: ch ",state,"latestCSRFToken :",latestCSRFToken)
       if (state !== latestCSRFToken) {
         console.error("Invalid CSRF token.",state,latestCSRFToken,code);
         setStepStatus("Invalid CSRF token")
