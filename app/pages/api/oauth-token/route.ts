@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
                 code: code,
                 client_id: process.env.VERCEL_CLIENT_ID || "",
                 client_secret: process.env.VERCEL_CLIENT_SECRET || "",
-                redirect_uri: `https://portfolio-two-roan-90.vercel.app/integrations/vercel/oauth2/callback`, // Replace with your actual domain
+                redirect_uri: `http://localhost:3000/integrations/vercel/oauth2/callback`, // Replace with your actual domain
             }).toString(),
             {
                 headers: {

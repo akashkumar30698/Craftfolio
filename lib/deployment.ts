@@ -78,9 +78,9 @@ export async function uploadFiles(repoFullName: string, setIsLoading: React.Disp
     }
 
     const files = [
-        { name: "index.html", path: "/public/index.html" },
-        { name: "style.css", path: "/public/style.css" },
-        { name: "main.js", path: "/public/main.js" },
+        { name: "index.html", path: "index.html" },
+        { name: "style.css", path: "style.css" },
+        { name: "main.js", path: "main.js" },
     ]
 
 

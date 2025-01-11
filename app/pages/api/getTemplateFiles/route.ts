@@ -1,9 +1,5 @@
-// pages/api/getTemplateFiles.ts
-import path from 'path';
 import { NextRequest, NextResponse } from 'next/server';
-import { readFileContent } from '@/lib/fileUtils';
-
-
+import { fetchFileFromGitHub } from '@/lib/githubUtils';
 
 export async function GET(req: NextRequest) {
   const url = req.url || ''
@@ -17,33 +13,25 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-   // const filePath: string
+    // GitHub repository details
+    const owner = process.env.GITHUB_REPO_OWNER;
+    const repo = process.env.GITHUB_REPO_NAME;
 
-    // In production, remove "/public" from the fileName if it contains "/public/index.html"
-    // and check if the file is not a sensitive file
-    let sanitizedFileName = fileName;
-    if (fileName.startsWith('/public/')) {
-      sanitizedFileName = fileName.replace('/public/', '');
+    if (!owner || !repo) {
+      throw new Error("GitHub repository details are not configured");
     }
 
-    console.log("sanitized :",sanitizedFileName)
+    // Remove leading slash if present
+    const filePath = fileName.startsWith('/') ? fileName.slice(1) : fileName;
 
-    // Determine the file path based on the environment (production or development)
-   // if (process.env.NODE_ENV === 'production') {
-      // In production, files are typically served from the `public` directory
-      const  filePath = path.join('public', sanitizedFileName);
-      console.log("filePath :",filePath)
-  //  } else {
-      // In development, use the absolute path to the file from the project's root directory
-   ////   filePath = path.join(process.cwd(), sanitizedFileName);
-  //  }
+    console.log("filepath :",filePath)
 
-    console.log('File PATH :', filePath)
-
-    const content = await readFileContent(filePath)
+    const content = await fetchFileFromGitHub(owner, repo, filePath);
+    console.log("content :",content)
     return NextResponse.json({ files: [{ name: fileName, content }] }, { status: 200 })
   } catch (error) {
-    console.error('Error reading file:', error)
-    return NextResponse.json({ error: 'Error reading file' }, { status: 500 })
+    console.error('Error fetching file from GitHub:', error)
+    return NextResponse.json({ error: 'Error fetching file from GitHub' }, { status: 500 })
   }
 }
+
