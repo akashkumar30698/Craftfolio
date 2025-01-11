@@ -299,7 +299,7 @@ async function loadRandomId() {
 async function fetchData(randomId) {
   if (randomId) {  // Only fetch data if randomId is not null
     try {
-      const response = await fetch(`http://localhost:3000/pages/api/storeOnServer?randomId=${randomId}`);
+      const response = await fetch(`https://portfolio-two-roan-90.vercel.app/pages/api/storeOnServer?randomId=${randomId}`);
       if (!response.ok) {
         throw new Error('Network response was not ok');
         return null
