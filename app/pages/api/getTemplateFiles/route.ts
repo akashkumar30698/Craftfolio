@@ -22,18 +22,21 @@ export async function GET(req: NextRequest) {
     // In production, remove "/public" from the fileName if it contains "/public/index.html"
     // and check if the file is not a sensitive file
     let sanitizedFileName = fileName;
-    if (process.env.NODE_ENV === 'production' && fileName.startsWith('/public/')) {
+    if (fileName.startsWith('/public/')) {
       sanitizedFileName = fileName.replace('/public/', '');
     }
 
+    console.log("sanitized :",sanitizedFileName)
+
     // Determine the file path based on the environment (production or development)
-    if (process.env.NODE_ENV === 'production') {
+   // if (process.env.NODE_ENV === 'production') {
       // In production, files are typically served from the `public` directory
       filePath = path.join('public', sanitizedFileName);
-    } else {
+      console.log("filePath :",filePath)
+  //  } else {
       // In development, use the absolute path to the file from the project's root directory
-      filePath = path.join(process.cwd(), sanitizedFileName);
-    }
+   ////   filePath = path.join(process.cwd(), sanitizedFileName);
+  //  }
 
     console.log('File PATH :', filePath)
 

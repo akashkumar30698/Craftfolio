@@ -22,7 +22,7 @@ export async function GET(req: NextRequest) {
                 client_id: process.env.GITHUB_CLIENT_ID,
                 client_secret: process.env.GITHUB_CLIENT_SECRET,
                 code: extractCoded,
-                redirect_uri: `https://portfolio-two-roan-90.vercel.app`,
+                redirect_uri: `http://localhost:3000`,
             },
             headers: {
                 'Accept': 'application/json',
