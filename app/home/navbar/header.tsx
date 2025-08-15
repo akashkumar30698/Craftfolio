@@ -1,65 +1,51 @@
-"use client"
+"use client";
 
-
-import React, { useState } from "react";
+import { useState, useCallback,useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { BackgroundLines } from "@/components/ui/background-lines";
 import { RainbowButton } from "@/components/ui/rainbow-button";
-import { useRouter } from "next/navigation"
-import { Loader2 } from 'lucide-react'
-
+import { Loader2 } from "lucide-react";
 
 export function Header() {
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
-  const [isLoading, setIsLoading] = useState<boolean>(false)
 
-  const router = useRouter()
+   // Prefetch the preview page for faster navigation
+  useEffect(() => {
+    router.prefetch("/preview");
+  }, [router]);
 
-  const handleStartClick = () => {
-    setIsLoading(true)
-    setTimeout(() => {
-      router.push("/preview")
-    }, 2000)
-  }
+  // useCallback prevents function recreation on every render
+  const handleStartClick = useCallback(() => {
+    if (isLoading) return; // avoid double triggers
+    setIsLoading(true);
+
+    // Navigate immediately (faster UX) but still show loader
+    router.push("/preview");
+  }, [isLoading, router]);
+
   return (
+    <header className="headerBg">
+      <BackgroundLines className="flex flex-col items-center justify-center w-full px-4 text-center">
+        <h1 className="relative z-20 bg-gradient-to-b from-neutral-900 to-neutral-700 dark:from-neutral-600 dark:to-white bg-clip-text text-transparent text-2xl md:text-4xl lg:text-7xl font-bold tracking-tight py-2 md:py-10">
+          Design. Build. Showcase. <br /> Portfolios That Inspire.
+        </h1>
 
-    <>
+        <p className="max-w-xl mx-auto text-sm md:text-lg text-neutral-700 dark:text-neutral-400">
+          Unlock your creative potential with templates designed for artists,
+          developers, and creators. Showcase your story, skills, and vision
+          effortlessly.
+        </p>
 
-
-      <div className="headerBg">
-        <BackgroundLines className="flex items-center justify-center w-full flex-col px-4">
-          <h2 className="bg-clip-text text-transparent text-center bg-gradient-to-b from-neutral-900 to-neutral-700 dark:from-neutral-600 dark:to-white text-2xl md:text-4xl lg:text-7xl font-sans py-2 md:py-10 relative z-20 font-bold tracking-tight">
-            Design. Build. Showcase. <br /> Portfolios That Inspire.
-          </h2>
-          <p className="max-w-xl marginBg mx-auto text-sm md:text-lg text-neutral-700 dark:text-neutral-400 text-center">
-            Unlock your creative potential with templates designed for artists, developers, and creators. Showcase your story, skills, and vision effortlessly.
-
-          </p>
-          <RainbowButton onClick={handleStartClick}>{
-            isLoading ? (
-              <>
-              <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-              </>
-            ) : (
-              <>
-              <div>
-                Get Started
-              </div>
-              </>
-            )
-          }
-          </RainbowButton>
-        </BackgroundLines>
-
-
-
-
-      </div>
-
-
-
-    </>
-
-
-
+        <RainbowButton onClick={handleStartClick} disabled={isLoading}>
+          {isLoading ? (
+            <Loader2 className="mr-2 h-5 w-5 animate-spin" aria-label="Loading" />
+          ) : (
+            "Get Started"
+          )}
+        </RainbowButton>
+      </BackgroundLines>
+    </header>
   );
 }

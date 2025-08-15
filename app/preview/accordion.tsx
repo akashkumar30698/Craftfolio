@@ -102,6 +102,7 @@ export function DashboardSidebar() {
         { id: '2', title: '', description: '', photo: null, repoLink: '', liveLink: '' },
         { id: '3', title: '', description: '', photo: null, repoLink: '', liveLink: '' }
     ])
+    
     const [socialLinks, setSocialLinks] = useState<SocialLink[]>(
         commonPlatforms.map(platform => ({ id: platform.toLowerCase(), platform, url: '' }))
     )

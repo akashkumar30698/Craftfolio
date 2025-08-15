@@ -10,7 +10,7 @@ export default function MainPage() {
     return (
         <>
         <Suspense fallback={<Loading/>}>
-        <DashboardPage/>
+          <DashboardPage/>
         </Suspense>
         </>
     )

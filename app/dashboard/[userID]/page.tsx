@@ -1,36 +1,14 @@
 "use client"
 
+import React from 'react';
+import { Suspense } from 'react';
+import Loading from '../../(main)/loading';
+import DashboardPage from './DashMain';
 
-import { SignInButton, SignedIn, UserButton, SignedOut } from '@clerk/nextjs'
-import { useUser } from '@clerk/nextjs'
-import { useEffect } from 'react'
-import {  useRouter } from "next/navigation"
-
-const DashboardPage: React.FC = () => {
-    const { isSignedIn } = useUser()
-    const router = useRouter()
-
-    useEffect(()=>{
-        if(!isSignedIn){
-            router.push("/sign-in")
-        }
-
-    },[isSignedIn,router])
-
-
+export default function Page() {
     return (
-        <>
-        <div>Dashboard Page</div>
-
-        <SignedOut>
-        <SignInButton />
-      </SignedOut>
-      
-      <SignedIn>
-        <UserButton />
-      </SignedIn>
-        </>
+            <Suspense fallback={<Loading/>}>
+              <DashboardPage />
+            </Suspense>
     )
 }
-
-export default DashboardPage

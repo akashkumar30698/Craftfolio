@@ -17,8 +17,6 @@ import { RainbowButton } from "@/components/ui/rainbow-button"
 import { Suspense } from "react"
 import Loading from "../(main)/loading"
 
-
-
 interface IUser {
   name: string;
   email: string;
@@ -36,8 +34,6 @@ interface IUser {
   randomId: string;
 }
 
-
-
 export default function DashboardPage() {
   const router = useRouter()
   const { formData } = useFormContext()
@@ -48,11 +44,6 @@ export default function DashboardPage() {
   useEffect(()=>{
     localStorage.removeItem('deployId')
   },[searchParams])
-
-  
-
-
-
 
   const handleClick = () => {
 
@@ -153,10 +144,7 @@ export default function DashboardPage() {
       </div>
 
     </SidebarProvider>
-
     </>
-    
-
   )
 }
 
