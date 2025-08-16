@@ -33,11 +33,24 @@ export default function App() {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [signUPLoading,setSignUPLoading] = useState<boolean>(false)
 
-  
-
   const router = useRouter();
   const {  setIsLoggedIn } = useContextApi()
   const { isSignedIn, user, isLoaded } = useUser();
+
+
+
+
+
+
+  // Prefetch important routes for snappy navigation
+  useEffect(() => {
+    router.prefetch("/sign-in");
+    router.prefetch("/sign-up");
+    router.prefetch("/preview");
+  }, [router]);
+
+
+
 
   // Wait until Clerk has finished loading before checking isSignedIn
   useEffect(() => {
@@ -48,29 +61,34 @@ export default function App() {
     }
   }, [isSignedIn, user, isLoaded, router,setIsLoggedIn]); // Ensure useEffect runs when the user or isLoaded changes
 
-  // Show loading state while Clerk is loading
-  if (!isLoaded) {
-    return <p></p>;
-  }
+  
   const handleLoginClick = () => {
     setIsLoading(true);
 
     // Simulate loading and then redirect
-    setTimeout(() => {
+   // setTimeout(() => {
       router.push("/sign-in"); // Redirect to sign-in page
-    }, 2000);
+    //}, 2000);
   };
 
   const handleSignUpClick = () =>{
     setSignUPLoading(true);
 
     // Simulate a delay for loading (e.g., API call, authentication, etc.)
-    setTimeout(() => {
+   // setTimeout(() => {
         router.push("/sign-up")
       // Perform login action or redirect here
-    }, 2000);
+   // }, 2000);
   }
 
+
+    if (!isLoaded) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Loader2 className="animate-spin w-6 h-6" />
+      </div>
+    );
+  }
 
 
   return (
