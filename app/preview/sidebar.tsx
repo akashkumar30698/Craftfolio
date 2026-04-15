@@ -33,7 +33,7 @@ export default function Sidebar({ children }: { children: React.ReactNode }) {
       <div className="hidden lg:block widthLarge lg:shrink-0 lg:border-r lg:bg-gray-100 dark:lg:bg-gray-800">
         <div className="flex h-full flex-col justify-between py-6 px-4">
           <div className="space-y-6">
-            <Link href="#" className="flex items-center gap-2 font-bold" prefetch={false}>
+            <Link href="/" className="flex items-center gap-2 font-bold" prefetch={false}>
               <PortfolioBuilderLogo width={36} height={36}/>
               <span className="text-lg"></span>
             </Link>

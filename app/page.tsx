@@ -38,18 +38,12 @@ export default function App() {
   const { isSignedIn, user, isLoaded } = useUser();
 
 
-
-
-
-
   // Prefetch important routes for snappy navigation
   useEffect(() => {
     router.prefetch("/sign-in");
     router.prefetch("/sign-up");
     router.prefetch("/preview");
   }, [router]);
-
-
 
 
   // Wait until Clerk has finished loading before checking isSignedIn
